@@ -10,12 +10,38 @@
 from __future__ import print_function
 import datetime
 import os
+import glob
 import sys
 import time
 from urllib import urlencode
 import urllib2
 from sense_hat import SenseHat
 from config import Config
+
+# temp sensor
+base_dir = '/sys/bus/w1/devices/'
+device_folder = glob.glob(base_dir + '28*')[0]
+device_file = device_folder + '/w1_slave'
+
+def read_temp_raw():
+    f = open(device_file, 'r')
+    lines = f.readlines()
+    f.close()
+    return lines
+ 
+def read_temp_DS18B20():
+    lines = read_temp_raw()
+    while lines[0].strip()[-3:] != 'YES':
+        time.sleep(0.2)
+        lines = read_temp_raw()
+    equals_pos = lines[1].find('t=')
+    if equals_pos != -1:
+        temp_string = lines[1][equals_pos+2:]
+        temp_c = float(temp_string) / 1000.0
+        temp_f = temp_c * 9.0 / 5.0 + 32.0
+        return temp_c
+
+
 
 # ============================================================================
 # Constants
@@ -34,6 +60,7 @@ SINGLE_HASH = "#"
 HASHES = "########################################"
 SLASH_N = "\n"
 BRIGHTNESS = 200
+USE_CPU_CORRECTION = True
 
 # constants used to display an up and down arrows plus bars
 # modified from https://www.raspberrypi.org/learning/getting-started-with-the-sense-hat/worksheet/
@@ -172,6 +199,8 @@ def get_cpu_temp():
 
 # use moving average to smooth readings
 def get_smooth(x):
+
+    print("x %d " % x)
     # do we have the t object?
     if not hasattr(get_smooth, "t"):
         # then create it
@@ -182,6 +211,10 @@ def get_smooth(x):
     get_smooth.t[0] = x
     # average the three last temperatures
     xs = (get_smooth.t[0] + get_smooth.t[1] + get_smooth.t[2]) / 3
+    print("smooth 0 : %d" % get_smooth.t[0])
+    print("smooth 1 : %d" % get_smooth.t[1])
+    print("smooth 2 : %d" % get_smooth.t[2]) 
+
     return xs
 
 def get_temp():
@@ -199,14 +232,36 @@ def get_temp():
     t2 = sense.get_temperature_from_pressure()
     # t becomes the average of the temperatures from both sensors
     t = (t1 + t2) / 2
+
     # Now, grab the CPU temperature
     t_cpu = get_cpu_temp()
-    # Calculate the 'real' temperature compensating for CPU heating
-    t_corr = t - ((t_cpu - t) / 1.5)
+
+    print("Humidiy temp  : %d" % t1)
+    print("Pressure temp : %d" % t2)
+    print("Average temp  : %d" % t)
+    print("CPU temp      : %d" % t_cpu)
+
+    print("DS18B20")
+
+    ds_temp = read_temp_DS18B20()
+
+    print(read_temp_DS18B20())
+
+    if USE_CPU_CORRECTION: 
+    	# Calculate the 'real' temperature compensating for CPU heating
+    	t_corr = t - ((t_cpu - t) / 1.5)
+    else:
+        t_corr = t
+
+    t_corr = ds_temp
+
+    print("t_corr : %d" % t_corr)
     # Finally, average out that value across the last three readings
     t_corr = get_smooth(t_corr)
     # convoluted, right?
     # Return the calculated temperature
+    print("Smoothed temp : %d" % t_corr)
+
     return t_corr
 
 def main():
