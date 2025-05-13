@@ -7,33 +7,74 @@
     the Astro Pi Sense HAT then uploads the data to a Weather Underground weather station.
 ********************************************************************************************************************'''
 
-from __future__ import print_function
-import datetime
-import os
-import glob
-import sys
-import time
-from urllib import urlencode
-import urllib2
-from sense_hat import SenseHat
-from config import Config
+from __future__ import print_function  # okay to keep for Python 2/3 compatibility
+from sense_hat import SenseHat         # required for Sense HAT
+from config import Config              # required for reading config values
+
+import datetime                        # used for timestamping and control flow
+import os                              # used to get CPU temp
+import glob                            # used to find DS18B20 device folder
+import sys                             # used for exception handling and exit
+import time                            # used for delays and time comparisons
+import requests                        # used to send HTTP request to WUnderground
 
 # temp sensor
 base_dir = '/sys/bus/w1/devices/'
-device_folder = glob.glob(base_dir + '28*')[0]
+device_folder_check = glob.glob(base_dir + '28*')
+device_folder = ""
+temp_sensor = "SENSHAT"
 device_file = device_folder + '/w1_slave'
+verbose = False
+
+if not device_folder_check:
+    print("No DS18B20 sensor found. Continuing with SENSHAT data.")
+    temp_sensor = "SENSHAT"
+else:
+    # device_folder = glob.glob(base_dir + '28*')[0]
+    print("DS18B20 sensor found.")
+    temp_sensor = "DS18B20"
+
+
+
+# ============================================================================
+# Functions
+# ============================================================================
+
+def read_temp_raw2():
+    base_dir = '/sys/bus/w1/devices/'
+    
+    device_folder = glob.glob(base_dir + '28*')[0]  # '28*' is the DS18B20 family code
+    device_file = device_folder + '/w1_slave'
+    with open(device_file, 'r') as f:
+        return f.readlines()
+
+def read_temp_DS18B20_2():
+    lines = read_temp_raw2()
+    while lines[0].strip()[-3:] != 'YES':
+        time.sleep(0.2)
+        lines = read_temp_raw2()
+        print("read_temp_DS18B20_2")
+        print(lines)
+    equals_pos = lines[1].find('t=')
+    if equals_pos != -1:
+        temp_string = lines[1][equals_pos+2:]
+        temp_c = float(temp_string) / 1000.0
+        return temp_c
 
 def read_temp_raw():
+    print("\nread_temp_raw")
     f = open(device_file, 'r')
     lines = f.readlines()
     f.close()
     return lines
  
 def read_temp_DS18B20():
+    print("\nread_temp_DS18B20")
     lines = read_temp_raw()
     while lines[0].strip()[-3:] != 'YES':
         time.sleep(0.2)
         lines = read_temp_raw()
+        print(lines)
     equals_pos = lines[1].find('t=')
     if equals_pos != -1:
         temp_string = lines[1][equals_pos+2:]
@@ -41,23 +82,32 @@ def read_temp_DS18B20():
         temp_f = temp_c * 9.0 / 5.0 + 32.0
         return temp_c
 
-
+def read_temp_sense():
+    print("\nread_temp_sense") 
+    return sense.get_temperature_from_pressure()
+    
+def read_temp():
+    if temp_sensor == "DS18B20":
+        return read_temp_DS18B20_2()
+    else:
+        return read_temp_sense()
 
 # ============================================================================
 # Constants
 # ============================================================================
 # specifies how often to measure values from the Sense HAT (in minutes)
 MEASUREMENT_INTERVAL = 2  # (default 10) minutes
-SYMBOL_SLEEP = 4          #
+SYMBOL_SLEEP = 4   
+ANIMATION_SLEEP = 2
 # Set to False when testing the code and/or hardware
 # Set to True to enable upload of weather data to Weather Underground
 WEATHER_UPLOAD = True
-UPDATE_ARROW_MINUTE = False
+upload_on_change = True
 # the weather underground URL used to upload weather data
 WU_URL = "http://weatherstation.wunderground.com/weatherstation/updateweatherstation.php"
 # some string constants
 SINGLE_HASH = "#"
-HASHES = "########################################"
+HASHES = "*#########################################################################################"
 SLASH_N = "\n"
 BRIGHTNESS = 200
 USE_CPU_CORRECTION = True
@@ -68,6 +118,7 @@ USE_CPU_CORRECTION = True
 b = [0, 0, 55+BRIGHTNESS]  # blue
 r = [55+BRIGHTNESS, 0, 0]  # red
 e = [0, 0, 0]   # empty
+g = [0, 55+BRIGHTNESS, 0]  # green
 
 # create images for up and down arrows
 arrow_up = [
@@ -94,23 +145,52 @@ bars = [
     e, e, e, e, e, e, e, e,
     e, e, e, e, e, e, e, e,
     e, e, e, e, e, e, e, e,
-    b, b, b, b, b, b, b, b,
-    b, b, b, b, b, b, b, b,
+    g, g, g, g, g, g, g, g,
+    g, g, g, g, g, g, g, g,
     e, e, e, e, e, e, e, e,
     e, e, e, e, e, e, e, e,
     e, e, e, e, e, e, e, e,
 ]
 upload = [
+    e, b, b, e, e, b, b, e,
     e, r, r, e, e, r, r, e,
+    e, b, b, e, e, b, b, e,
     e, r, r, e, e, r, r, e,
+    e, b, b, e, e, b, b, e,
     e, r, r, e, e, r, r, e,
-    e, r, r, e, e, r, r, e,
-    e, r, r, e, e, r, r, e,
-    e, r, r, e, e, r, r, e,
-    e, r, r, e, e, r, r, e,
-    e, e, r, r, r, r, e, e,
+    e, b, b, e, e, b, b, e,
+    e, e, r, b, b, r, e, e,
 ]
-
+upload2 = [
+    e, g, g, e, e, g, g, e,
+    e, b, b, e, e, b, b, e,
+    e, r, r, e, e, r, r, e,
+    e, b, b, e, e, b, b, e,
+    e, r, r, e, e, r, r, e,
+    e, b, b, e, e, b, b, e,
+    e, r, r, e, e, r, r, e,
+    e, e, b, r, r, b, e, e,
+]
+green_tick = [
+    e, e, e, e, e, e, e, e,
+    e, e, e, e, e, e, g, e,
+    e, e, e, e, e, g, e, e,
+    e, e, e, e, g, g, e, e,
+    g, e, e, g, g, e, e, e,
+    e, g, g, g, e, e, e, e,
+    e, g, g, g, e, e, e, e,
+    e, e, g, e, e, e, e, e,
+]
+red_cross = [
+    r, r, e, e, e, e, r, r,
+    r, r, r, e, e, r, r, r,
+    e, r, r, r, r, r, r, e,
+    e, e, r, r, r, r, e, e,
+    e, e, r, r, r, r, e, e,
+    e, r, r, r, r, r, r, e,
+    r, r, r, e, e, r, r, r,
+    r, r, e, e, e, e, r, r,
+]
 # ============================================================================
 # Functions
 # ============================================================================
@@ -155,8 +235,8 @@ def set_brightness():
     time_string = time.strftime("%H:%M", named_tuple)
 
     if time_string > "7:00" or time_string < "18:00":
-        print("day brightness = 200")
         BRIGHTNESS = 200
+        print("day brightness = 200")
     else:
         BRIGHTNESS = 20
         print("evening brightness = 20")
@@ -184,7 +264,25 @@ def display_bars():
 def display_upload_sign():
     print("\nDISPLAY_UPLOAD_SIGN")
     sense.set_pixels(upload)
-    time.sleep(SYMBOL_SLEEP)
+    time.sleep(ANIMATION_SLEEP)
+    return True
+
+def display_upload_sign2():
+    print("\nDISPLAY_UPLOAD_SIGN2")
+    sense.set_pixels(upload2)
+    time.sleep(ANIMATION_SLEEP)
+    return True
+
+def display_green_tick():
+    print("\nDISPLAY_GREEN_TICK")
+    sense.set_pixels(green_tick)
+    time.sleep(ANIMATION_SLEEP)
+    return True
+
+def display_red_cross():
+    print("\ndisplay_red_cross")
+    sense.set_pixels(red_cross)
+    time.sleep(ANIMATION_SLEEP)
     return True
 
 def c_to_f(input_temp):
@@ -211,9 +309,11 @@ def get_smooth(x):
     get_smooth.t[0] = x
     # average the three last temperatures
     xs = (get_smooth.t[0] + get_smooth.t[1] + get_smooth.t[2]) / 3
-    print("smooth 0 : %d" % get_smooth.t[0])
-    print("smooth 1 : %d" % get_smooth.t[1])
-    print("smooth 2 : %d" % get_smooth.t[2]) 
+
+    if verbose:
+        print("smooth 0 : %d" % get_smooth.t[0])
+        print("smooth 1 : %d" % get_smooth.t[1])
+        print("smooth 2 : %d" % get_smooth.t[2]) 
 
     return xs
 
@@ -241,15 +341,15 @@ def get_temp():
     print("Average temp  : %d" % t)
     print("CPU temp      : %d" % t_cpu)
 
-    print("DS18B20")
+    #print("DS18B20")
+    #ds_temp = read_temp_DS18B20()
+    #print("read_temp_DS18B20()")
+    print("read_temp")
+    ds_temp = read_temp()
 
-    ds_temp = read_temp_DS18B20()
-
-    print(read_temp_DS18B20())
-
-    if USE_CPU_CORRECTION: 
-    	# Calculate the 'real' temperature compensating for CPU heating
-    	t_corr = t - ((t_cpu - t) / 1.5)
+	# Calculate the 'real' temperature compensating for CPU heating
+    if USE_CPU_CORRECTION:
+        t_corr = t - ((t_cpu - t) / 1.5)
     else:
         t_corr = t
 
@@ -266,10 +366,10 @@ def get_temp():
 
 def main():
     global last_temp
-    global current_minute
     allIsGood = True
     displaySymbol = True
-    displayText = False
+    displayText = True
+    upload_on_change = True
 
     # initialize the lastMinute variable to the current time to start
     last_minute = datetime.datetime.now().minute
@@ -289,11 +389,7 @@ def main():
     while allIsGood:
         current_second = datetime.datetime.now().second
 
-        if ((current_second == 0) or ((current_second % 5) == 0)):
-            print("Second:%s" % (current_second))
-            displaySymbol = not displaySymbol
-            displayText = not displayText
-
+        if allIsGood:
             calc_temp = get_temp()
             temp_c = round(calc_temp, 1)
             temp_f = round(c_to_f(calc_temp), 1)
@@ -306,80 +402,81 @@ def main():
             if displayText:
                 sense.clear()
                 sense.show_message(" " + str(temp_c) + "c ", text_colour=[55+BRIGHTNESS, 55+BRIGHTNESS, 0], back_colour=[0, 0, 0])
+                sense.show_message(" " + str(temp_c) + "c ", text_colour=[55+BRIGHTNESS, 55+BRIGHTNESS, 0], back_colour=[0, 0, 0])
 
             if displaySymbol:
+                sense.clear()
                 if last_temp_c != temp_c:
                     if last_temp_c > temp_c:
-                        # display_blue_arrow
-                        print("DOWN")
-                        sense.clear()
-                        sense.set_pixels(arrow_down)
+                        # display_blue_arrow                        
+                        print("Temperature going DOWN")
+                        display_blue_arrow()
+                        upload_on_change = True
                     else:
                         # display_red_arrow
-                        print("UP")
-                        sense.clear()
-                        sense.set_pixels(arrow_up)
+                        print("Temperature going UP")
+                        display_red_arrow()
+                        upload_on_change = True
                 else:
                     # display_bars
-                    print("STASIS")
-                    sense.clear()
-                    sense.set_pixels(bars)
+                    print("Temperature is the SAME")
+                    display_bars()
+                    upload_on_change = False
 
             # set last_temp to the current temperature before we measure again
             last_temp_c = temp_c
 
-            # get the current minute
-            # current_minute = datetime.datetime.now().minute
-            # is it the same minute as the last time we checked?
-            # if current_minute != last_minute:
-            #     last_minute = current_minute
-            #    if (current_minute == 0) or ((current_minute % MEASUREMENT_INTERVAL) == 0):
-            if WEATHER_UPLOAD:
+            if WEATHER_UPLOAD and upload_on_change:
 
                 # set the brighness bassed on the time of day.
                 set_brightness()
                 set_low_light()
 
-                now = datetime.datetime.now()
-                # print("\n%d minute mark (%d @ %s)" % (MEASUREMENT_INTERVAL, current_minute, str(now)))
                 last_temp = temp_f
 
-                # From http://wiki.wunderground.com/index.php/PWS_-_Upload_Protocol
                 print("Uploading data to Weather Underground")
-                # build a weather data object
-                weather_data = {
-                    "action": "updateraw",
-                    "ID": wu_station_id,
-                    "PASSWORD": wu_station_key,
+
+                try:
+                    upload_url = "http://weatherstation.wunderground.com/weatherstation/updateweatherstation.php"
+
+                    params = {
+                    "ID": "IFREIB27",
+                    "PASSWORD": "XeshVHi1",
                     "dateutc": "now",
                     "tempf": str(temp_f),
                     "humidity": str(humidity),
                     "baromin": str(pressure),
-                }
-                try:
-                    upload_url = WU_URL + "?" + urlencode(weather_data)
-                    response = urllib2.urlopen(upload_url)
-                    html = response.read()
-                    print("Server response:", html)
-                    # do something
-                    response.close()  # best practice to close the file
+                    "action": "updateraw"
+                    }
+
+                    response = requests.get(upload_url, params=params)
+
+                    print("Status code:", response.status_code)
+                    print("Response body:", response.text)
+
                 except:
                     print("Exception:", sys.exc_info()[0], SLASH_N)
+                    display_red_cross()
+                
+
+                # Tick for upload success.
+                print("Weather Underground upload success")
+                display_green_tick()
+                
             else:
-                print("Skipping Weather Underground upload")
-
-    # wait a second then check again
-    # You can always increase the sleep value below to check less often
-        time.sleep(1)  # this should never happen since the above is an infinite loop
-
-    print("Leaving main()")
+                print("Skipping Weather Underground upload")                
+                
+        # wait some seconds then check again
+        # You can always increase the sleep value below to check less often
+        time.sleep(1)  
+    print("Leaving main()") # this should never happen since the above is an infinite loop
 
 # ============================================================================
 # here's where we start doing stuff
 # ============================================================================
 print(SLASH_N + HASHES)
-print(SINGLE_HASH, "Julians Pi Weather Station (Stephen Goss)                 ", SINGLE_HASH)
-print(SINGLE_HASH, "Bassed on code originaly written by John M. Wargo (www.johnwargo.com)", SINGLE_HASH)
+print(SINGLE_HASH, "Julians Pi Weather Station (Stephen Goss)                 ")
+print(SINGLE_HASH, "Bassed on code originaly written by John M. Wargo (www.johnwargo.com)")
 print(HASHES)
 
 # make sure we don't have a MEASUREMENT_INTERVAL > 60
@@ -400,7 +497,6 @@ if (wu_station_id is None) or (wu_station_key is None):
 # we made it this far, so it must have worked...
 print("Successfully read Weather Underground configuration values")
 print("Station ID:", wu_station_id)
-# print("Station key:", wu_station_key)
 
 # ============================================================================
 # initialize the Sense HAT object
@@ -408,7 +504,7 @@ print("Station ID:", wu_station_id)
 try:
     print("Initializing the Sense HAT client")
     sense = SenseHat()
-    # sense.set_rotation(180)
+    sense.set_rotation(180)
     # then write some text to the Sense HAT's 'screen'
     sense.show_message("Julians WS", text_colour=[55+BRIGHTNESS, 55+BRIGHTNESS, 0], back_colour=[0, 0, 55+BRIGHTNESS])
 
