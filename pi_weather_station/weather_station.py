@@ -1,5 +1,5 @@
 #!/usr/bin/python
-'''*****************************************************************************************************************
+'''********************************************************************************************************************
     Pi Temperature Station
     Bassed on code orignaly By John M. Wargo www.johnwargo.com
 
@@ -18,7 +18,11 @@ import sys                             # used for exception handling and exit
 import time                            # used for delays and time comparisons
 import requests                        # used to send HTTP request to WUnderground
 
-# temp sensor
+'''*****************************************************************************************************************
+   Constants
+
+*****************************************************************************************************************'''
+
 base_dir = '/sys/bus/w1/devices/'
 device_folder_check = glob.glob(base_dir + '28*')
 device_folder = ""
@@ -26,75 +30,6 @@ temp_sensor = "SENSHAT"
 device_file = device_folder + '/w1_slave'
 verbose = False
 
-if not device_folder_check:
-    print("No DS18B20 sensor found. Continuing with SENSHAT data.")
-    temp_sensor = "SENSHAT"
-else:
-    # device_folder = glob.glob(base_dir + '28*')[0]
-    print("DS18B20 sensor found.")
-    temp_sensor = "DS18B20"
-
-
-
-# ============================================================================
-# Functions
-# ============================================================================
-
-def read_temp_raw2():
-    base_dir = '/sys/bus/w1/devices/'
-    
-    device_folder = glob.glob(base_dir + '28*')[0]  # '28*' is the DS18B20 family code
-    device_file = device_folder + '/w1_slave'
-    with open(device_file, 'r') as f:
-        return f.readlines()
-
-def read_temp_DS18B20_2():
-    lines = read_temp_raw2()
-    while lines[0].strip()[-3:] != 'YES':
-        time.sleep(0.2)
-        lines = read_temp_raw2()
-        print("read_temp_DS18B20_2")
-        print(lines)
-    equals_pos = lines[1].find('t=')
-    if equals_pos != -1:
-        temp_string = lines[1][equals_pos+2:]
-        temp_c = float(temp_string) / 1000.0
-        return temp_c
-
-def read_temp_raw():
-    print("\nread_temp_raw")
-    f = open(device_file, 'r')
-    lines = f.readlines()
-    f.close()
-    return lines
- 
-def read_temp_DS18B20():
-    print("\nread_temp_DS18B20")
-    lines = read_temp_raw()
-    while lines[0].strip()[-3:] != 'YES':
-        time.sleep(0.2)
-        lines = read_temp_raw()
-        print(lines)
-    equals_pos = lines[1].find('t=')
-    if equals_pos != -1:
-        temp_string = lines[1][equals_pos+2:]
-        temp_c = float(temp_string) / 1000.0
-        temp_f = temp_c * 9.0 / 5.0 + 32.0
-        return temp_c
-
-def read_temp_sense():
-    print("\nread_temp_sense") 
-    return sense.get_temperature_from_pressure()
-    
-def read_temp():
-    if temp_sensor == "DS18B20":
-        return read_temp_DS18B20_2()
-    else:
-        return read_temp_sense()
-
-# ============================================================================
-# Constants
-# ============================================================================
 # specifies how often to measure values from the Sense HAT (in minutes)
 MEASUREMENT_INTERVAL = 2  # (default 10) minutes
 SYMBOL_SLEEP = 4   
@@ -151,26 +86,6 @@ bars = [
     e, e, e, e, e, e, e, e,
     e, e, e, e, e, e, e, e,
 ]
-upload = [
-    e, b, b, e, e, b, b, e,
-    e, r, r, e, e, r, r, e,
-    e, b, b, e, e, b, b, e,
-    e, r, r, e, e, r, r, e,
-    e, b, b, e, e, b, b, e,
-    e, r, r, e, e, r, r, e,
-    e, b, b, e, e, b, b, e,
-    e, e, r, b, b, r, e, e,
-]
-upload2 = [
-    e, g, g, e, e, g, g, e,
-    e, b, b, e, e, b, b, e,
-    e, r, r, e, e, r, r, e,
-    e, b, b, e, e, b, b, e,
-    e, r, r, e, e, r, r, e,
-    e, b, b, e, e, b, b, e,
-    e, r, r, e, e, r, r, e,
-    e, e, b, r, r, b, e, e,
-]
 green_tick = [
     e, e, e, e, e, e, e, e,
     e, e, e, e, e, e, g, e,
@@ -191,9 +106,48 @@ red_cross = [
     r, r, r, e, e, r, r, r,
     r, r, e, e, e, e, r, r,
 ]
-# ============================================================================
-# Functions
-# ============================================================================
+
+'''*****************************************************************************************************************
+   Functions
+
+*****************************************************************************************************************'''
+if not device_folder_check:
+    print("No DS18B20 sensor found. Continuing with SENSHAT data.")
+    temp_sensor = "SENSHAT"
+else:
+    # device_folder = glob.glob(base_dir + '28*')[0]
+    print("DS18B20 sensor found.")
+    temp_sensor = "DS18B20"
+
+def read_temp_raw():
+    base_dir = '/sys/bus/w1/devices/'   
+    device_folder = glob.glob(base_dir + '28*')[0]  # '28*' is the DS18B20 family code
+    device_file = device_folder + '/w1_slave'
+    with open(device_file, 'r') as f:
+        return f.readlines()
+
+def read_temp_DS18B20():
+    lines = read_temp_raw()
+    while lines[0].strip()[-3:] != 'YES':
+        time.sleep(0.2)
+        lines = read_temp_raw()
+        print("read_temp_DS18B20_2")
+        print(lines)
+    equals_pos = lines[1].find('t=')
+    if equals_pos != -1:
+        temp_string = lines[1][equals_pos+2:]
+        temp_c = float(temp_string) / 1000.0
+        return temp_c
+
+def read_temp_sense():
+    print("\nread_temp_sense") 
+    return sense.get_temperature_from_pressure()
+    
+def read_temp():
+    if temp_sensor == "DS18B20":
+        return read_temp_DS18B20()
+    else:
+        return read_temp_sense()
 
 def print_orientation():
     print("\nprint_orientation")
@@ -203,7 +157,6 @@ def print_orientation():
     orientation = sense.get_orientation()
     print("p: {pitch}, r: {roll}, y: {yaw}".format(**orientation))
     print(sense.orientation)
-
     return True
 
 def set_low_light():
@@ -217,7 +170,6 @@ def set_low_light():
     else:
         sense.low_light = True
         print("low_light = True")
-    
     return True
 
 def set_gamma():
@@ -226,7 +178,6 @@ def set_gamma():
     print('Gamma : ')
     print(sense.gamma)
     sense.clear(255, 127, 0)
-    
     return True
 
 def set_brightness():
@@ -240,7 +191,6 @@ def set_brightness():
     else:
         BRIGHTNESS = 20
         print("evening brightness = 20")
-
     return True
 
 def display_red_arrow():
@@ -261,18 +211,6 @@ def display_bars():
     time.sleep(SYMBOL_SLEEP)
     return True
 
-def display_upload_sign():
-    print("\nDISPLAY_UPLOAD_SIGN")
-    sense.set_pixels(upload)
-    time.sleep(ANIMATION_SLEEP)
-    return True
-
-def display_upload_sign2():
-    print("\nDISPLAY_UPLOAD_SIGN2")
-    sense.set_pixels(upload2)
-    time.sleep(ANIMATION_SLEEP)
-    return True
-
 def display_green_tick():
     print("\nDISPLAY_GREEN_TICK")
     sense.set_pixels(green_tick)
@@ -280,7 +218,7 @@ def display_green_tick():
     return True
 
 def display_red_cross():
-    print("\ndisplay_red_cross")
+    print("\nDISPLAY_RED_CROSS")
     sense.set_pixels(red_cross)
     time.sleep(ANIMATION_SLEEP)
     return True
@@ -326,7 +264,6 @@ def get_temp():
     # taking CPU temp into account. The Pi foundation recommended
     # using the following:
     # http://yaab-arduino.blogspot.co.uk/2016/08/accurate-temperature-reading-sensehat.html
-    # ====================================================================
     # First, get temp readings from both sensors
     t1 = sense.get_temperature_from_humidity()
     t2 = sense.get_temperature_from_pressure()
@@ -341,9 +278,6 @@ def get_temp():
     print("Average temp  : %d" % t)
     print("CPU temp      : %d" % t_cpu)
 
-    #print("DS18B20")
-    #ds_temp = read_temp_DS18B20()
-    #print("read_temp_DS18B20()")
     print("read_temp")
     ds_temp = read_temp()
 
@@ -471,9 +405,11 @@ def main():
         time.sleep(1)  
     print("Leaving main()") # this should never happen since the above is an infinite loop
 
-# ============================================================================
-# here's where we start doing stuff
-# ============================================================================
+
+'''*****************************************************************************************************************
+   here's where we start doing stuff
+
+*****************************************************************************************************************'''
 print(SLASH_N + HASHES)
 print(SINGLE_HASH, "Julians Pi Weather Station (Stephen Goss)                 ")
 print(SINGLE_HASH, "Bassed on code originaly written by John M. Wargo (www.johnwargo.com)")
@@ -484,9 +420,11 @@ if (MEASUREMENT_INTERVAL is None) or (MEASUREMENT_INTERVAL > 60):
     print("The application's 'MEASUREMENT_INTERVAL' cannot be empty or greater than 60")
     sys.exit(1)
 
-# ============================================================================
-#  Read Weather Underground Configuration Parameters
-# ============================================================================
+'''*****************************************************************************************************************
+   Read Weather Underground Configuration Parameters
+
+*****************************************************************************************************************'''
+
 print("\nInitializing Weather Underground configuration")
 wu_station_id = Config.STATION_ID
 wu_station_key = Config.STATION_KEY
@@ -498,15 +436,16 @@ if (wu_station_id is None) or (wu_station_key is None):
 print("Successfully read Weather Underground configuration values")
 print("Station ID:", wu_station_id)
 
-# ============================================================================
-# initialize the Sense HAT object
-# ============================================================================
+'''*****************************************************************************************************************
+   Initialize the Sense HAT object
+
+*****************************************************************************************************************'''
 try:
     print("Initializing the Sense HAT client")
     sense = SenseHat()
     sense.set_rotation(180)
     # then write some text to the Sense HAT's 'screen'
-    sense.show_message("Julians WS", text_colour=[55+BRIGHTNESS, 55+BRIGHTNESS, 0], back_colour=[0, 0, 55+BRIGHTNESS])
+    # sense.show_message("Julians WS", text_colour=[55+BRIGHTNESS, 55+BRIGHTNESS, 0], back_colour=[0, 0, 55+BRIGHTNESS])
 
     # clear the screen
     sense.clear()
