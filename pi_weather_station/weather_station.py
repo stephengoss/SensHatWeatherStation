@@ -182,10 +182,9 @@ def set_gamma():
 
 def set_brightness():
     print("\nset_brightness")
-    named_tuple = time.localtime()
-    time_string = time.strftime("%H:%M", named_tuple)
 
-    if time_string > "7:00" or time_string < "18:00":
+    hour = time.localtime().tm_hour
+    if 7 <= hour < 18:
         BRIGHTNESS = 200
         print("day brightness = 200")
     else:
