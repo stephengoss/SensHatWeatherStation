@@ -106,64 +106,6 @@ red_cross = [
     r, r, r, e, e, r, r, r,
     r, r, e, e, e, e, r, r,
 ]
-
-'''*****************************************************************************************************************
-   Functions
-
-*****************************************************************************************************************'''
-if not device_folder_check:
-    print("No DS18B20 sensor found. Continuing with SENSHAT data.")
-    temp_sensor = "SENSHAT"
-else:
-    # device_folder = glob.glob(base_dir + '28*')[0]
-    print("DS18B20 sensor found.")
-    temp_sensor = "DS18B20"
-
-def read_temp_raw():
-    base_dir = '/sys/bus/w1/devices/'   
-    device_folder = glob.glob(base_dir + '28*')[0]  # '28*' is the DS18B20 family code
-    device_file = device_folder + '/w1_slave'
-    with open(device_file, 'r') as f:
-        return f.readlines()
-
-def read_temp_DS18B20():
-    lines = read_temp_raw()
-    while lines[0].strip()[-3:] != 'YES':
-        time.sleep(0.2)
-        lines = read_temp_raw()
-        print("read_temp_DS18B20_2")
-        print(lines)
-    equals_pos = lines[1].find('t=')
-    if equals_pos != -1:
-        temp_string = lines[1][equals_pos+2:]
-        temp_c = float(temp_string) / 1000.0
-        return temp_c
-
-def read_temp_sense():
-    print("\nread_temp_sense") 
-    return sense.get_temperature_from_pressure()
-    
-def read_temp():
-    if temp_sensor == "DS18B20":
-        return read_temp_DS18B20()
-    else:
-        return read_temp_sense()
-
-def print_orientation():
-    print("\nprint_orientation")
-    north = sense.get_compass()
-    print("North: %s" % north)
-    print(sense.compass)
-    orientation = sense.get_orientation()
-    print("p: {pitch}, r: {roll}, y: {yaw}".format(**orientation))
-    print(sense.orientation)
-    return True
-
-def set_low_light():
-    print("\nset_low_light")
-    named_tuple = time.localtime()
-    time_string = time.strftime("%H:%M", named_tuple)
-
 '''*****************************************************************************************************************
    Functions
 
