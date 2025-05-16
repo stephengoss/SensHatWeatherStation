@@ -31,10 +31,8 @@ device_file = device_folder + '/w1_slave'
 verbose = False
 
 SYMBOL_SLEEP = 4   
-# Set to False when testing the code and/or hardware
 # Set to True to enable upload of weather data to Weather Underground
 WEATHER_UPLOAD = True
-upload_on_change = True
 # the weather underground URL used to upload weather data
 WU_URL = "http://weatherstation.wunderground.com/weatherstation/updateweatherstation.php"
 # some string constants
@@ -360,7 +358,7 @@ def main():
             # set last_temp to the current temperature before we measure again
             last_temp_c = temp_c
 
-            if WEATHER_UPLOAD and upload_on_change:
+            if WEATHER_UPLOAD:
 
                 # set the brighness bassed on the time of day.
                 set_brightness()
