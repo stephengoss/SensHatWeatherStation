@@ -284,7 +284,7 @@ def get_temp():
     print("read_temp")
     ds_temp = read_temp()
 
-	# Calculate the 'real' temperature compensating for CPU heating
+    # Calculate the 'real' temperature compensating for CPU heating
     if USE_CPU_CORRECTION:
         t_corr = t - ((t_cpu - t) / 1.5)
     else:
