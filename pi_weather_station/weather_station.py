@@ -31,7 +31,6 @@ device_file = device_folder + '/w1_slave'
 verbose = False
 
 SYMBOL_SLEEP = 4   
-ANIMATION_SLEEP = 2
 # Set to False when testing the code and/or hardware
 # Set to True to enable upload of weather data to Weather Underground
 WEATHER_UPLOAD = True
@@ -215,13 +214,13 @@ def display_bars():
 def display_green_tick():
     print("\nDISPLAY_GREEN_TICK")
     sense.set_pixels(green_tick)
-    time.sleep(ANIMATION_SLEEP)
+    time.sleep(SYMBOL_SLEEP)
     return True
 
 def display_red_cross():
     print("\nDISPLAY_RED_CROSS")
     sense.set_pixels(red_cross)
-    time.sleep(ANIMATION_SLEEP)
+    time.sleep(SYMBOL_SLEEP)
     return True
 
 def c_to_f(input_temp):
