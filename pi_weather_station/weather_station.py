@@ -174,7 +174,6 @@ def rethinkBrightness(brightness):
     e = [0, 0, 0]   # empty
     g = [0, 55+brightness, 0]  # green
 
-
 if not device_folder_check:
     print("No DS18B20 sensor found. Continuing with SENSHAT data.")
     temp_sensor = "SENSHAT"
