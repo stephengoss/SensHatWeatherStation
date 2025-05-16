@@ -1,10 +1,10 @@
 #!/usr/bin/python
 '''********************************************************************************************************************
-    Pi Temperature Station
-    Bassed on code orignaly By John M. Wargo www.johnwargo.com
+   Pi Temperature Station
+   Bassed on code orignaly By John M. Wargo www.johnwargo.com
 
-    This is a Raspberry Pi project that measures weather values (temperature, humidity and pressure) using
-    the Astro Pi Sense HAT then uploads the data to a Weather Underground weather station.
+   This is a Raspberry Pi project that measures weather values (temperature, humidity and pressure) using
+   the Astro Pi Sense HAT then uploads the data to a Weather Underground weather station.
 ********************************************************************************************************************'''
 
 from __future__ import print_function  # okay to keep for Python 2/3 compatibility
@@ -406,7 +406,7 @@ def main():
 
 
 '''*****************************************************************************************************************
-   here's where we start doing stuff
+   Here's where we start doing stuff
 
 *****************************************************************************************************************'''
 print(SLASH_N + HASHES)
