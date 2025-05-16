@@ -25,17 +25,12 @@ import requests                        # used to send HTTP request to WUndergrou
 
 base_dir = '/sys/bus/w1/devices/'
 device_folder_check = glob.glob(base_dir + '28*')
-device_folder = ""
 temp_sensor = "SENSHAT"
-device_file = device_folder + '/w1_slave'
 verbose = False
 
 SYMBOL_SLEEP = 4   
 # Set to True to enable upload of weather data to Weather Underground
 WEATHER_UPLOAD = True
-# the weather underground URL used to upload weather data
-WU_URL = "http://weatherstation.wunderground.com/weatherstation/updateweatherstation.php"
-# some string constants
 SINGLE_HASH = "#"
 HASHES = "*#########################################################################################"
 SLASH_N = "\n"
