@@ -30,8 +30,6 @@ temp_sensor = "SENSHAT"
 device_file = device_folder + '/w1_slave'
 verbose = False
 
-# specifies how often to measure values from the Sense HAT (in minutes)
-MEASUREMENT_INTERVAL = 2  # (default 10) minutes
 SYMBOL_SLEEP = 4   
 ANIMATION_SLEEP = 2
 # Set to False when testing the code and/or hardware
@@ -417,11 +415,6 @@ print(SLASH_N + HASHES)
 print(SINGLE_HASH, "Julians Pi Weather Station (Stephen Goss)                 ")
 print(SINGLE_HASH, "Bassed on code originaly written by John M. Wargo (www.johnwargo.com)")
 print(HASHES)
-
-# make sure we don't have a MEASUREMENT_INTERVAL > 60
-if (MEASUREMENT_INTERVAL is None) or (MEASUREMENT_INTERVAL > 60):
-    print("The application's 'MEASUREMENT_INTERVAL' cannot be empty or greater than 60")
-    sys.exit(1)
 
 '''*****************************************************************************************************************
    Read Weather Underground Configuration Parameters
