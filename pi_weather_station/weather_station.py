@@ -50,10 +50,10 @@ USE_CPU_CORRECTION = True
 # constants used to display an up and down arrows plus bars
 # modified from https://www.raspberrypi.org/learning/getting-started-with-the-sense-hat/worksheet/
 # set up the colours (blue, red, empty)
-b = [0, 0, 55+BRIGHTNESS]  # blue
-r = [55+BRIGHTNESS, 0, 0]  # red
+b = [0, 0, 55 + BRIGHTNESS]  # blue
+r = [55 + BRIGHTNESS, 0, 0]  # red
 e = [0, 0, 0]   # empty
-g = [0, 55+BRIGHTNESS, 0]  # green
+g = [0, 55 + BRIGHTNESS, 0]  # green
 
 # create images for up and down arrows
 arrow_up = [
