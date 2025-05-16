@@ -100,11 +100,6 @@ red_cross = [
    Functions
 
 *****************************************************************************************************************'''
-def rethinkBrightness(brightness):
-    b = [0, 0, 55 + brightness]  # blue
-    r = [55 + brightness, 0, 0]  # red
-    e = [0, 0, 0]   # empty
-    g = [0, 55 + brightness, 0]  # green
 
 if not device_folder_check:
     print("No DS18B20 sensor found. Continuing with SENSHAT data.")
@@ -135,7 +130,7 @@ def read_temp_DS18B20():
         return temp_c
 
 def read_temp_sense():
-    print("\nread_temp_sense") 
+    print("\nread_temp_sense_hat no DS18B20 detected.") 
     return sense.get_temperature_from_pressure()
     
 def read_temp():
