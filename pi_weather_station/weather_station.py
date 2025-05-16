@@ -164,123 +164,10 @@ def set_low_light():
     named_tuple = time.localtime()
     time_string = time.strftime("%H:%M", named_tuple)
 
-
-
-#!/usr/bin/python
-'''********************************************************************************************************************
-   Pi Temperature Station
-   Bassed on code orignaly By John M. Wargo www.johnwargo.com
-
-   This is a Raspberry Pi project that measures weather values (temperature, humidity and pressure) using
-   the Astro Pi Sense HAT then uploads the data to a Weather Underground weather station.
-********************************************************************************************************************'''
-
-from __future__ import print_function  # okay to keep for Python 2/3 compatibility
-from sense_hat import SenseHat         # required for Sense HAT
-from config import Config              # required for reading config values
-
-import datetime                        # used for timestamping and control flow
-import os                              # used to get CPU temp
-import glob                            # used to find DS18B20 device folder
-import sys                             # used for exception handling and exit
-import time                            # used for delays and time comparisons
-import requests                        # used to send HTTP request to WUnderground
-
-'''*****************************************************************************************************************
-   Constants
-
-*****************************************************************************************************************'''
-
-base_dir = '/sys/bus/w1/devices/'
-device_folder_check = glob.glob(base_dir + '28*')
-device_folder = ""
-temp_sensor = "SENSHAT"
-device_file = device_folder + '/w1_slave'
-verbose = False
-
-# specifies how often to measure values from the Sense HAT (in minutes)
-MEASUREMENT_INTERVAL = 2  # (default 10) minutes
-SYMBOL_SLEEP = 4   
-ANIMATION_SLEEP = 2
-# Set to False when testing the code and/or hardware
-# Set to True to enable upload of weather data to Weather Underground
-WEATHER_UPLOAD = True
-upload_on_change = True
-# the weather underground URL used to upload weather data
-WU_URL = "http://weatherstation.wunderground.com/weatherstation/updateweatherstation.php"
-# some string constants
-SINGLE_HASH = "#"
-HASHES = "*#########################################################################################"
-SLASH_N = "\n"
-BRIGHTNESS = 200
-USE_CPU_CORRECTION = True
-
-# constants used to display an up and down arrows plus bars
-# modified from https://www.raspberrypi.org/learning/getting-started-with-the-sense-hat/worksheet/
-# set up the colours (blue, red, empty)
-b = [0, 0, 55+BRIGHTNESS]  # blue
-r = [55+BRIGHTNESS, 0, 0]  # red
-e = [0, 0, 0]   # empty
-g = [0, 55+BRIGHTNESS, 0]  # green
-
-# create images for up and down arrows
-arrow_up = [
-    e, e, e, r, r, e, e, e,
-    e, e, r, r, r, r, e, e,
-    e, r, e, r, r, e, r, e,
-    r, e, e, r, r, e, e, r,
-    e, e, e, r, r, e, e, e,
-    e, e, e, r, r, e, e, e,
-    e, e, e, r, r, e, e, e,
-    e, e, e, r, r, e, e, e
-]
-arrow_down = [
-    e, e, e, b, b, e, e, e,
-    e, e, e, b, b, e, e, e,
-    e, e, e, b, b, e, e, e,
-    e, e, e, b, b, e, e, e,
-    b, e, e, b, b, e, e, b,
-    e, b, e, b, b, e, b, e,
-    e, e, b, b, b, b, e, e,
-    e, e, e, b, b, e, e, e
-]
-bars = [
-    e, e, e, e, e, e, e, e,
-    e, e, e, e, e, e, e, e,
-    e, e, e, e, e, e, e, e,
-    g, g, g, g, g, g, g, g,
-    g, g, g, g, g, g, g, g,
-    e, e, e, e, e, e, e, e,
-    e, e, e, e, e, e, e, e,
-    e, e, e, e, e, e, e, e,
-]
-green_tick = [
-    e, e, e, e, e, e, e, e,
-    e, e, e, e, e, e, g, e,
-    e, e, e, e, e, g, e, e,
-    e, e, e, e, g, g, e, e,
-    g, e, e, g, g, e, e, e,
-    e, g, g, g, e, e, e, e,
-    e, g, g, g, e, e, e, e,
-    e, e, g, e, e, e, e, e,
-]
-red_cross = [
-    r, r, e, e, e, e, r, r,
-    r, r, r, e, e, r, r, r,
-    e, r, r, r, r, r, r, e,
-    e, e, r, r, r, r, e, e,
-    e, e, r, r, r, r, e, e,
-    e, r, r, r, r, r, r, e,
-    r, r, r, e, e, r, r, r,
-    r, r, e, e, e, e, r, r,
-]
-
 '''*****************************************************************************************************************
    Functions
 
 *****************************************************************************************************************'''
-
-
 def rethinkBrightness(brightness):
     b = [0, 0, 55+brightness]  # blue
     r = [55+brightness, 0, 0]  # red
@@ -640,18 +527,6 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         print("\nExiting application\n")
         sys.exit(0)
-
-
-
-
-
-    if time_string > "7:00" or time_string < "18:00":
-        sense.low_light = False
-        print("low_light = False")
-    else:
-        sense.low_light = True
-        print("low_light = True")
-    return True
 
 def set_gamma():
     print("\nset_gamma")
