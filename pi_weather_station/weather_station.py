@@ -111,10 +111,10 @@ red_cross = [
 
 *****************************************************************************************************************'''
 def rethinkBrightness(brightness):
-    b = [0, 0, 55+brightness]  # blue
-    r = [55+brightness, 0, 0]  # red
+    b = [0, 0, 55 + brightness]  # blue
+    r = [55 + brightness, 0, 0]  # red
     e = [0, 0, 0]   # empty
-    g = [0, 55+brightness, 0]  # green
+    g = [0, 55 + brightness, 0]  # green
 
 if not device_folder_check:
     print("No DS18B20 sensor found. Continuing with SENSHAT data.")
@@ -136,7 +136,7 @@ def read_temp_DS18B20():
     while lines[0].strip()[-3:] != 'YES':
         time.sleep(0.2)
         lines = read_temp_raw()
-        print("read_temp_DS18B20_2")
+        print("read_temp_DS18B20")
         print(lines)
     equals_pos = lines[1].find('t=')
     if equals_pos != -1:
