@@ -24,6 +24,7 @@ import logging
 
 *****************************************************************************************************************'''
 
+SensHatWeatherStationVersion = "1.0.0.1"
 base_dir = '/sys/bus/w1/devices/'
 device_folder_check = glob.glob(base_dir + '28*')
 temp_sensor = "SENSHAT"
@@ -447,7 +448,7 @@ try:
     sense = SenseHat()
     sense.set_rotation(0)
     # then write some text to the Sense HAT's 'screen'
-    sense.show_message("Weather Station", text_colour=[55+BRIGHTNESS, 55+BRIGHTNESS, 0], back_colour=[0, 0, 55+BRIGHTNESS])
+    sense.show_message("Weather Station Version %s ",SensHatWeatherStationVersion, text_colour=[55+BRIGHTNESS, 55+BRIGHTNESS, 0], back_colour=[0, 0, 55+BRIGHTNESS])
 
     # clear the screen
     sense.clear()
