@@ -232,8 +232,8 @@ def display_red_cross():
     time.sleep(SYMBOL_SLEEP)
     return True
 
-def c_to_f(input_temp):
-    # convert input_temp from Celsius to Fahrenheit
+def c_to_f(input_temp) -> float:
+    """Convert input_temp from Celsius to Fahrenheit."""
     return (input_temp * 1.8) + 32
 
 def get_cpu_temp() -> float:
