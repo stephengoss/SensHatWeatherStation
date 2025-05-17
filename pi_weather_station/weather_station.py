@@ -401,8 +401,7 @@ def main():
 
 *****************************************************************************************************************'''
 print(SLASH_N + HASHES)
-print(SINGLE_HASH, "Julians Pi Weather Station (Stephen Goss)                 ")
-print(SINGLE_HASH, "Bassed on code originaly written by John M. Wargo (www.johnwargo.com)")
+print(SINGLE_HASH, "Pi Weather Station")
 print(HASHES)
 
 '''*****************************************************************************************************************
@@ -467,15 +466,15 @@ try:
     logger.error("This is an error")
     logger.critical("This is critical")
 except:
-    print("Unable to initialize the Sense HAT library:", sys.exc_info()[0])
+    logger.error("Unable to initialize the Sense HAT library:", sys.exc_info()[0])
     sys.exit(1)
 
-print("Initialization complete!")
+logger.info("Initialization complete!")
 
 # Now see what we're supposed to do next
 if __name__ == "__main__":
     try:
         main()
     except KeyboardInterrupt:
-        print("\nExiting application\n")
+        logger.error("\nExiting application\n")
         sys.exit(0)
