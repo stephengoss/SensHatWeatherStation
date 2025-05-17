@@ -431,6 +431,7 @@ logger.info("Pi Weather Station")
 logger.info("Initializing Weather Underground configuration")
 wu_station_id = Config.STATION_ID
 wu_station_key = Config.STATION_KEY
+wu_screen_rotation = Config.SCREEN_ROTATION
 if (wu_station_id is None) or (wu_station_key is None):
     logger.info("Missing values from the Weather Underground configuration file")
     sys.exit(1)
@@ -438,6 +439,7 @@ if (wu_station_id is None) or (wu_station_key is None):
 # we made it this far, so it must have worked...
 logger.info("Successfully read Weather Underground configuration values")
 logger.info("Station ID: %s", wu_station_id)
+logger.info("Screen Rotation: %d", wu_screen_rotation)
 
 '''*****************************************************************************************************************
    Initialize the Sense HAT object
@@ -446,7 +448,7 @@ logger.info("Station ID: %s", wu_station_id)
 try:
     logger.info("Initializing the Sense HAT client")
     sense = SenseHat()
-    sense.set_rotation(0)
+    sense.set_rotation(wu_screen_rotation)
     # then write some text to the Sense HAT's 'screen'
 
     versionStr = f"Weather Station V:{__version__}"
