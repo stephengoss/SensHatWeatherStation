@@ -131,12 +131,11 @@ logger.error("This is an error")
 logger.critical("This is critical")
 
 if not device_folder_check:
-    print("No DS18B20 sensor found. Continuing with SENSHAT data.")
-    logging.info("This is an info message")
+    logger.info("No DS18B20 sensor found. Continuing with SENSHAT data.")
     temp_sensor = "SENSHAT"
 else:
     # device_folder = glob.glob(base_dir + '28*')[0]
-    print("DS18B20 sensor found.")
+    logger.info("DS18B20 sensor found.")
     temp_sensor = "DS18B20"
 
 def read_temp_raw():
@@ -151,8 +150,8 @@ def read_temp_DS18B20():
     while lines[0].strip()[-3:] != 'YES':
         time.sleep(0.2)
         lines = read_temp_raw()
-        print("read_temp_DS18B20")
-        print(lines)
+        logger.info("read_temp_DS18B20")
+        logger.info(lines)
     equals_pos = lines[1].find('t=')
     if equals_pos != -1:
         temp_string = lines[1][equals_pos+2:]
@@ -160,7 +159,7 @@ def read_temp_DS18B20():
         return temp_c
 
 def read_temp_sense():
-    print("\nread_temp_sense_hat no DS18B20 detected.") 
+    logger.info("read_temp_sense_hat no DS18B20 detected.") 
     return sense.get_temperature_from_pressure()
     
 def read_temp():
@@ -170,73 +169,73 @@ def read_temp():
         return read_temp_sense()
 
 def print_orientation():
-    print("\nprint_orientation")
+    logger.info("print_orientation")
     north = sense.get_compass()
-    print("North: %s" % north)
-    print(sense.compass)
+    logger.info("North: %s" % north)
+    logger.info(sense.compass)
     orientation = sense.get_orientation()
-    print("p: {pitch}, r: {roll}, y: {yaw}".format(**orientation))
-    print(sense.orientation)
+    logger.info("p: {pitch}, r: {roll}, y: {yaw}".format(**orientation))
+    logger.info(sense.orientation)
     return True
 
 def set_low_light():
-    print("\nset_low_light")
+    logger.info("set_low_light")
 
     hour = time.localtime().tm_hour
     if 7 <= hour < 18:
         sense.low_light = False
-        print("low_light = False")
+        logger.info("low_light = False")
     else:
         sense.low_light = True
-        print("low_light = True")
+        logger.info("low_light = True")
     return True
 
 def set_gamma():
-    print("\nset_gamma")
+    logger.info("set_gamma")
     sense.gamma_reset()
-    print('Gamma : ')
-    print(sense.gamma)
+    logger.info('Gamma : ')
+    logger.info(sense.gamma)
     sense.clear(255, 127, 0)
     return True
 
 def set_brightness():
-    print("\nset_brightness")
+    logger.info("set_brightness")
 
     hour = time.localtime().tm_hour
     if 7 <= hour < 18:
         BRIGHTNESS = 200
-        print("day brightness = 200")
+        logger.info("day brightness = 200")
     else:
         BRIGHTNESS = 20
-        print("evening brightness = 20")
+        logger.info("evening brightness = 20")
     return True
 
 def display_red_arrow():
-    print("\nDISPLAY_RED_ARROW")
+    logger.info("DISPLAY_RED_ARROW")
     sense.set_pixels(arrow_up)
     time.sleep(SYMBOL_SLEEP)
     return True
 
 def display_blue_arrow():
-    print("\nDISPLAY_BLUE_ARROW")
+    logger.info("DISPLAY_BLUE_ARROW")
     sense.set_pixels(arrow_down)
     time.sleep(SYMBOL_SLEEP)
     return True
 
 def display_bars():
-    print("\nDISPLAY_BARS")
+    logger.info("DISPLAY_BARS")
     sense.set_pixels(bars)
     time.sleep(SYMBOL_SLEEP)
     return True
 
 def display_green_tick():
-    print("\nDISPLAY_GREEN_TICK")
+    logger.info("DISPLAY_GREEN_TICK")
     sense.set_pixels(green_tick)
     time.sleep(SYMBOL_SLEEP)
     return True
 
 def display_red_cross():
-    print("\nDISPLAY_RED_CROSS")
+    logger.info("DISPLAY_RED_CROSS")
     sense.set_pixels(red_cross)
     time.sleep(SYMBOL_SLEEP)
     return True
@@ -254,7 +253,7 @@ def get_cpu_temp():
 # use moving average to smooth readings
 def get_smooth(x):
 
-    print("x %d " % x)
+    logger.info("x %d " % x)
     # do we have the t object?
     if not hasattr(get_smooth, "t"):
         # then create it
@@ -267,9 +266,9 @@ def get_smooth(x):
     xs = (get_smooth.t[0] + get_smooth.t[1] + get_smooth.t[2]) / 3
 
     if verbose:
-        print("smooth 0 : %d" % get_smooth.t[0])
-        print("smooth 1 : %d" % get_smooth.t[1])
-        print("smooth 2 : %d" % get_smooth.t[2]) 
+        logger.info("smooth 0 : %d" % get_smooth.t[0])
+        logger.info("smooth 1 : %d" % get_smooth.t[1])
+        logger.info("smooth 2 : %d" % get_smooth.t[2]) 
 
     return xs
 
@@ -291,12 +290,12 @@ def get_temp():
     # Now, grab the CPU temperature
     t_cpu = get_cpu_temp()
 
-    print("Humidiy temp  : %d" % t1)
-    print("Pressure temp : %d" % t2)
-    print("Average temp  : %d" % t)
-    print("CPU temp      : %d" % t_cpu)
+    logger.info("Humidiy temp  : %d" % t1)
+    logger.info("Pressure temp : %d" % t2)
+    logger.info("Average temp  : %d" % t)
+    logger.info("CPU temp      : %d" % t_cpu)
 
-    print("read_temp")
+    logger.info("read_temp")
     ds_temp = read_temp()
 
     # Calculate the 'real' temperature compensating for CPU heating
@@ -307,7 +306,7 @@ def get_temp():
 
     t_corr = ds_temp
 
-    print("t_corr : %d" % t_corr)
+    logger.info("t_corr : %d" % t_corr)
     # Finally, average out that value across the last three readings
     t_corr = get_smooth(t_corr)
     # convoluted, right?
@@ -348,8 +347,8 @@ def main():
             humidity = round(sense.get_humidity(), 0)
             pressure = round(sense.get_pressure() * 0.0295300, 1)
 
-            print("Temp: %sc, Pressure: %s inHg, Humidity: %s%% Second:%s" % (temp_c, pressure, humidity, current_second))
-            print("displayText: %s, displaySymbol: %s" % (str(displayText), str(displaySymbol)))
+            logger.info("Temp: %sc, Pressure: %s inHg, Humidity: %s%% Second:%s" % (temp_c, pressure, humidity, current_second))
+            logger.info("displayText: %s, displaySymbol: %s" % (str(displayText), str(displaySymbol)))
 
             if displayText:
                 sense.clear()
@@ -361,17 +360,17 @@ def main():
                 if last_temp_c != temp_c:
                     if last_temp_c > temp_c:
                         # display_blue_arrow                        
-                        print("Temperature going DOWN")
+                        logger.info("Temperature going DOWN")
                         display_blue_arrow()
                         upload_on_change = True
                     else:
                         # display_red_arrow
-                        print("Temperature going UP")
+                        logger.info("Temperature going UP")
                         display_red_arrow()
                         upload_on_change = True
                 else:
                     # display_bars
-                    print("Temperature is the SAME")
+                    logger.info("Temperature is the SAME")
                     display_bars()
                     upload_on_change = False
 
@@ -386,7 +385,7 @@ def main():
 
                 last_temp = temp_f
 
-                print("Uploading data to Weather Underground")
+                logger.info("Uploading data to Weather Underground")
 
                 try:
                     upload_url = "http://weatherstation.wunderground.com/weatherstation/updateweatherstation.php"
@@ -403,59 +402,58 @@ def main():
 
                     response = requests.get(upload_url, params=params)
 
-                    print("Status code:", response.status_code)
-                    print("Response body:", response.text)
+                    logger.info("Status code: %s", response.status_code)
+                    logger.info("Response body: %s", response.text)
 
                 except:
-                    print("Exception:", sys.exc_info()[0], SLASH_N)
+                    logger.info("Exception: %s", sys.exc_info()[0], SLASH_N)
                     display_red_cross()
                 
 
                 # Tick for upload success.
-                print("Weather Underground upload success")
+                logger.info("Weather Underground upload success")
                 display_green_tick()
                 
             else:
-                print("Skipping Weather Underground upload")                
+                logger.info("Skipping Weather Underground upload")                
                 
         # wait some seconds then check again
         # You can always increase the sleep value below to check less often
         time.sleep(1)  
-    print("Leaving main()") # this should never happen since the above is an infinite loop
+    logger.info("Leaving main()") # this should never happen since the above is an infinite loop
 
 
 '''*****************************************************************************************************************
    Here's where we start doing stuff
 
 *****************************************************************************************************************'''
-print(SLASH_N + HASHES)
-print(SINGLE_HASH, "Pi Weather Station")
-print(HASHES)
+
+logger.info("Pi Weather Station")
 
 '''*****************************************************************************************************************
    Read Weather Underground Configuration Parameters
 
 *****************************************************************************************************************'''
 
-print("\nInitializing Weather Underground configuration")
+logger.info("\nInitializing Weather Underground configuration")
 wu_station_id = Config.STATION_ID
 wu_station_key = Config.STATION_KEY
 if (wu_station_id is None) or (wu_station_key is None):
-    print("Missing values from the Weather Underground configuration file\n")
+    logger.info("Missing values from the Weather Underground configuration file")
     sys.exit(1)
 
 # we made it this far, so it must have worked...
-print("Successfully read Weather Underground configuration values")
-print("Station ID:", wu_station_id)
+logger.info("Successfully read Weather Underground configuration values")
+logger.info("Station ID: %s", wu_station_id)
 
 '''*****************************************************************************************************************
    Initialize the Sense HAT object
 
 *****************************************************************************************************************'''
 try:
-    print("Initializing the Sense HAT client")
+    logger.info("Initializing the Sense HAT client")
     sense = SenseHat()
-    sense.set_rotation(180)
+    sense.set_rotation(0)
     # then write some text to the Sense HAT's 'screen'
     # sense.show_message("Julians WS", text_colour=[55+BRIGHTNESS, 55+BRIGHTNESS, 0], back_colour=[0, 0, 55+BRIGHTNESS])
 
@@ -463,10 +461,10 @@ try:
     sense.clear()
     # get the current temp to use when checking the previous measurement
     last_temp = round(c_to_f(get_temp()), 1)
-    print("Current temperature reading:", last_temp)
+    logger.info("Current temperature reading: %s", last_temp)
    
 except:
-    logger.error("Unable to initialize the Sense HAT library:", sys.exc_info()[0])
+    logger.error("Unable to initialize the Sense HAT library: %s", sys.exc_info()[0])
     sys.exit(1)
 
 logger.info("Initialization complete!")
