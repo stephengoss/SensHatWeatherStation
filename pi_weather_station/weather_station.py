@@ -402,9 +402,9 @@ wu_weather_upload = Config.WEATHER_UPLOAD
 
 # we made it this far, so it must have worked...
 logger.info("Successfully read configuration values")
-logger.info("Station ID: %s", wu_station_id)
-logger.info("Screen Rotation: %d", wu_screen_rotation)
-logger.info("Weather Upload : %d", wu_weather_upload)
+logger.info("Station ID      : %s", wu_station_id)
+logger.info("Screen Rotation : %d", wu_screen_rotation)
+logger.info("Weather Upload  : %d", wu_weather_upload)
 
 '''*****************************************************************************************************************
    Initialize the Sense HAT object
