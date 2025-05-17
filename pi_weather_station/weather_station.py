@@ -113,7 +113,7 @@ console_handler.setLevel(logging.DEBUG)
 console_handler.setFormatter(formatter)
 
 # --- File handler ---
-file_handler = logging.FileHandler('app.log', mode='a')  # mode='w' to overwrite
+file_handler = logging.FileHandler('weather_station.log', mode='a')  # mode='w' to overwrite
 file_handler.setLevel(logging.INFO)  # You can use a different level for the file
 file_handler.setFormatter(formatter)
 
