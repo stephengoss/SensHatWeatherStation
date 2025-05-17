@@ -236,11 +236,14 @@ def c_to_f(input_temp):
     # convert input_temp from Celsius to Fahrenheit
     return (input_temp * 1.8) + 32
 
-def get_cpu_temp():
-    # 'borrowed' from https://www.raspberrypi.org/forums/viewtopic.php?f=104&t=111457
-    # executes a command at the OS to pull in the CPU temperature
-    res = os.popen('vcgencmd measure_temp').readline()
-    return float(res.replace("temp=", "").replace("'C\n", ""))
+def get_cpu_temp() -> float:
+    """Get the CPU temperature in Celsius."""
+    try:
+        res = os.popen('vcgencmd measure_temp').readline()
+        return float(res.replace("temp=", "").replace("'C\n", ""))
+    except Exception as e:
+        logger.error(f"Failed to get CPU temperature: {e}")
+        return float('nan')
 
 # use moving average to smooth readings
 def get_smooth(x):
