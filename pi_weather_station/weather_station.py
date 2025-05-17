@@ -101,6 +101,34 @@ red_cross = [
    Functions
 
 *****************************************************************************************************************'''
+# Create a logger
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
+# Formatter for both handlers
+formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+
+# --- Console handler ---
+console_handler = logging.StreamHandler()
+console_handler.setLevel(logging.DEBUG)
+console_handler.setFormatter(formatter)
+
+# --- File handler ---
+file_handler = logging.FileHandler('app.log', mode='a')  # mode='w' to overwrite
+file_handler.setLevel(logging.INFO)  # You can use a different level for the file
+file_handler.setFormatter(formatter)
+
+# --- Attach handlers if not already attached ---
+if not logger.hasHandlers():
+    logger.addHandler(console_handler)
+    logger.addHandler(file_handler)
+
+# Log messages
+logger.debug("This is a debug message (console only)")
+logger.info("This is an info message (both)")
+logger.warning("This is a warning")
+logger.error("This is an error")
+logger.critical("This is critical")
 
 if not device_folder_check:
     print("No DS18B20 sensor found. Continuing with SENSHAT data.")
@@ -438,34 +466,6 @@ try:
     last_temp = round(c_to_f(get_temp()), 1)
     print("Current temperature reading:", last_temp)
    
-    # Create a logger
-    logger = logging.getLogger(__name__)
-    logger.setLevel(logging.DEBUG)
-
-    # Formatter for both handlers
-    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-
-    # --- Console handler ---
-    console_handler = logging.StreamHandler()
-    console_handler.setLevel(logging.DEBUG)
-    console_handler.setFormatter(formatter)
-
-    # --- File handler ---
-    file_handler = logging.FileHandler('app.log', mode='a')  # mode='w' to overwrite
-    file_handler.setLevel(logging.INFO)  # You can use a different level for the file
-    file_handler.setFormatter(formatter)
-
-    # --- Attach handlers if not already attached ---
-    if not logger.hasHandlers():
-        logger.addHandler(console_handler)
-        logger.addHandler(file_handler)
-
-    # Log messages
-    logger.debug("This is a debug message (console only)")
-    logger.info("This is an info message (both)")
-    logger.warning("This is a warning")
-    logger.error("This is an error")
-    logger.critical("This is critical")
 except:
     print("Unable to initialize the Sense HAT library:", sys.exc_info()[0])
     sys.exit(1)
