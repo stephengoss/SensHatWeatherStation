@@ -301,7 +301,7 @@ def get_temp():
     t_corr = get_smooth(t_corr)
     # convoluted, right?
     # Return the calculated temperature
-    print("Smoothed temp : %d" % t_corr)
+    logger.info("Smoothed temp : %d" % t_corr)
 
     return t_corr
 
@@ -425,7 +425,7 @@ logger.info("Pi Weather Station")
 
 *****************************************************************************************************************'''
 
-logger.info("\nInitializing Weather Underground configuration")
+logger.info("Initializing Weather Underground configuration")
 wu_station_id = Config.STATION_ID
 wu_station_key = Config.STATION_KEY
 if (wu_station_id is None) or (wu_station_key is None):
@@ -464,5 +464,5 @@ if __name__ == "__main__":
     try:
         main()
     except KeyboardInterrupt:
-        logger.error("\nExiting application\n")
+        logger.error("Exiting application")
         sys.exit(0)
