@@ -32,9 +32,6 @@ temp_sensor = "SENSHAT"
 SYMBOL_SLEEP = 4   
 # Set to True to enable upload of weather data to Weather Underground
 WEATHER_UPLOAD = True
-SINGLE_HASH = "#"
-HASHES = "*#########################################################################################"
-SLASH_N = "\n"
 BRIGHTNESS = 200
 USE_CPU_CORRECTION = True
 
@@ -399,7 +396,7 @@ def main():
                     logger.info("Response body: %s", response.text)
 
                 except:
-                    logger.info("Exception: %s", sys.exc_info()[0], SLASH_N)
+                    logger.info("Exception: %s", sys.exc_info()[0])
                     display_red_cross()
                 
 
