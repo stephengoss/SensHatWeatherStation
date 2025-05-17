@@ -28,10 +28,8 @@ __version__ = "1.0.1"
 base_dir = '/sys/bus/w1/devices/'
 device_folder_check = glob.glob(base_dir + '28*')
 temp_sensor = "SENSHAT"
-SYMBOL_SLEEP = 4   
-# Set to True to enable upload of weather data to Weather Underground
+symbol_sleep = 4   
 BRIGHTNESS = 200
-USE_CPU_CORRECTION = True
 
 # constants used to display an up and down arrows plus bars
 # modified from https://www.raspberrypi.org/learning/getting-started-with-the-sense-hat/worksheet/
@@ -201,31 +199,31 @@ def set_brightness():
 def display_red_arrow():
     logger.info("display_red_arrow")
     sense.set_pixels(arrow_up)
-    time.sleep(SYMBOL_SLEEP)
+    time.sleep(symbol_sleep)
     return True
 
 def display_blue_arrow():
     logger.info("display_blue_arrow")
     sense.set_pixels(arrow_down)
-    time.sleep(SYMBOL_SLEEP)
+    time.sleep(symbol_sleep)
     return True
 
 def display_bars():
     logger.info("display_bars")
     sense.set_pixels(bars)
-    time.sleep(SYMBOL_SLEEP)
+    time.sleep(symbol_sleep)
     return True
 
 def display_green_tick():
     logger.info("display_green_tick")
     sense.set_pixels(green_tick)
-    time.sleep(SYMBOL_SLEEP)
+    time.sleep(symbol_sleep)
     return True
 
 def display_red_cross():
     logger.info("display_red_cross")
     sense.set_pixels(red_cross)
-    time.sleep(SYMBOL_SLEEP)
+    time.sleep(symbol_sleep)
     return True
 
 def c_to_f(input_temp) -> float:
@@ -287,11 +285,7 @@ def get_temp() -> float:
     ds_temp = read_temp()
 
     # Calculate the 'real' temperature compensating for CPU heating
-    if USE_CPU_CORRECTION:
-        t_corr = t - ((t_cpu - t) / 1.5)
-    else:
-        t_corr = t
-
+    t_corr = t - ((t_cpu - t) / 1.5)
     t_corr = ds_temp
 
     logger.info("t_corr : %d" % t_corr)
@@ -428,7 +422,7 @@ try:
     sense.set_rotation(wu_screen_rotation)
 
     versionStr = f"V:{__version__}"
-    sense.show_message(versionStr, text_colour=[55+BRIGHTNESS, 55+BRIGHTNESS, 0], back_colour=[0, 0, 55+BRIGHTNESS])
+    sense.show_message(versionStr, text_colour=[55 + BRIGHTNESS, 55 + BRIGHTNESS, 0], back_colour=[0, 0, 55 + BRIGHTNESS])
     logger.info(versionStr)
    
     sense.clear()
