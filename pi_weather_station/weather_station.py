@@ -245,9 +245,8 @@ def get_cpu_temp() -> float:
         logger.error(f"Failed to get CPU temperature: {e}")
         return float('nan')
 
-# use moving average to smooth readings
 def get_smooth(x):
-
+    """Use moving average to smooth readings."""
     logger.info("x %d " % x)
     # do we have the t object?
     if not hasattr(get_smooth, "t"):
