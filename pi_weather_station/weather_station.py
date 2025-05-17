@@ -445,7 +445,7 @@ try:
     sense = SenseHat()
     sense.set_rotation(0)
     # then write some text to the Sense HAT's 'screen'
-    # sense.show_message("Julians WS", text_colour=[55+BRIGHTNESS, 55+BRIGHTNESS, 0], back_colour=[0, 0, 55+BRIGHTNESS])
+    sense.show_message("Weather Station", text_colour=[55+BRIGHTNESS, 55+BRIGHTNESS, 0], back_colour=[0, 0, 55+BRIGHTNESS])
 
     # clear the screen
     sense.clear()
@@ -464,5 +464,5 @@ if __name__ == "__main__":
     try:
         main()
     except KeyboardInterrupt:
-        logger.error("Exiting application")
-        sys.exit(0)
+        logger.info("Exiting application")
+sys.exit(0)

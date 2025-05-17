@@ -1457,3 +1457,227 @@ Initializing Weather Underground configuration
 2025-05-17 10:03:09,967 - INFO - Smoothed temp : 30
 2025-05-17 10:03:09,970 - INFO - Temp: 30.6c, Pressure: 29.4 inHg, Humidity: 31.0% Second:9
 2025-05-17 10:03:09,971 - INFO - displayText: True, displaySymbol: True
+2025-05-17 10:03:19,446 - INFO - Temperature is the SAME
+2025-05-17 10:03:19,447 - INFO - DISPLAY_BARS
+2025-05-17 10:03:23,448 - INFO - set_brightness
+2025-05-17 10:03:23,448 - INFO - day brightness = 200
+2025-05-17 10:03:23,449 - INFO - set_low_light
+2025-05-17 10:03:23,450 - INFO - low_light = False
+2025-05-17 10:03:23,450 - INFO - Uploading data to Weather Underground
+2025-05-17 10:03:23,719 - INFO - Status code: 200
+2025-05-17 10:03:23,719 - INFO - Response body: success
+
+2025-05-17 10:03:23,720 - INFO - Weather Underground upload success
+2025-05-17 10:03:23,720 - INFO - DISPLAY_GREEN_TICK
+2025-05-17 10:03:28,726 - INFO - Humidiy temp  : 32
+2025-05-17 10:03:28,727 - INFO - Pressure temp : 30
+2025-05-17 10:03:28,727 - INFO - Average temp  : 31
+2025-05-17 10:03:28,727 - INFO - CPU temp      : 59
+2025-05-17 10:03:28,727 - INFO - read_temp
+2025-05-17 10:03:28,727 - INFO - read_temp_sense_hat no DS18B20 detected.
+2025-05-17 10:03:28,728 - INFO - t_corr : 30
+2025-05-17 10:03:28,728 - INFO - x 30 
+2025-05-17 10:03:28,728 - INFO - Smoothed temp : 30
+2025-05-17 10:03:28,729 - INFO - Temp: 30.6c, Pressure: 29.4 inHg, Humidity: 31.0% Second:28
+2025-05-17 10:03:28,729 - INFO - displayText: True, displaySymbol: True
+2025-05-17 10:03:37,150 - INFO - No DS18B20 sensor found. Continuing with SENSHAT data.
+2025-05-17 10:03:37,151 - INFO - Pi Weather Station
+2025-05-17 10:03:37,151 - INFO - Initializing Weather Underground configuration
+2025-05-17 10:03:37,151 - INFO - Successfully read Weather Underground configuration values
+2025-05-17 10:03:37,151 - INFO - Station ID: IFREIB27
+2025-05-17 10:03:37,152 - INFO - Initializing the Sense HAT client
+2025-05-17 10:03:37,208 - INFO - Humidiy temp  : 32
+2025-05-17 10:03:37,209 - INFO - Pressure temp : 30
+2025-05-17 10:03:37,209 - INFO - Average temp  : 31
+2025-05-17 10:03:37,209 - INFO - CPU temp      : 60
+2025-05-17 10:03:37,210 - INFO - read_temp
+2025-05-17 10:03:37,210 - INFO - read_temp_sense_hat no DS18B20 detected.
+2025-05-17 10:03:37,223 - INFO - t_corr : 30
+2025-05-17 10:03:37,224 - INFO - x 30 
+2025-05-17 10:03:37,225 - INFO - Smoothed temp : 30
+2025-05-17 10:03:37,225 - INFO - Current temperature reading: 87.0
+2025-05-17 10:03:37,225 - INFO - Initialization complete!
+2025-05-17 10:03:37,226 - INFO - print_orientation
+2025-05-17 10:03:37,343 - INFO - North: 237.77518548196917
+2025-05-17 10:03:37,358 - INFO - 237.77518548196917
+2025-05-17 10:03:37,374 - INFO - p: 0.0, r: 0.0, y: 237.77518548196917
+2025-05-17 10:03:37,388 - INFO - {'roll': 0.0, 'pitch': 0.0, 'yaw': 237.77518548196917}
+2025-05-17 10:03:37,389 - INFO - set_gamma
+2025-05-17 10:03:37,389 - INFO - Gamma : 
+2025-05-17 10:03:37,390 - INFO - [0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 17, 18, 20, 21, 23, 25, 27, 29, 31]
+2025-05-17 10:03:37,390 - INFO - set_brightness
+2025-05-17 10:03:37,391 - INFO - day brightness = 200
+2025-05-17 10:03:37,391 - INFO - set_low_light
+2025-05-17 10:03:37,392 - INFO - low_light = False
+2025-05-17 10:03:37,401 - INFO - Humidiy temp  : 32
+2025-05-17 10:03:37,401 - INFO - Pressure temp : 30
+2025-05-17 10:03:37,402 - INFO - Average temp  : 31
+2025-05-17 10:03:37,402 - INFO - CPU temp      : 60
+2025-05-17 10:03:37,402 - INFO - read_temp
+2025-05-17 10:03:37,403 - INFO - read_temp_sense_hat no DS18B20 detected.
+2025-05-17 10:03:37,419 - INFO - t_corr : 30
+2025-05-17 10:03:37,420 - INFO - x 30 
+2025-05-17 10:03:37,421 - INFO - Smoothed temp : 30
+2025-05-17 10:03:37,422 - INFO - Temp: 30.5c, Pressure: 29.4 inHg, Humidity: 30.0% Second:37
+2025-05-17 10:03:37,422 - INFO - displayText: True, displaySymbol: True
+2025-05-17 10:03:46,875 - INFO - Temperature going UP
+2025-05-17 10:03:46,875 - INFO - DISPLAY_RED_ARROW
+2025-05-17 10:03:50,876 - INFO - set_brightness
+2025-05-17 10:03:50,876 - INFO - day brightness = 200
+2025-05-17 10:03:50,877 - INFO - set_low_light
+2025-05-17 10:03:50,877 - INFO - low_light = False
+2025-05-17 10:03:50,877 - INFO - Uploading data to Weather Underground
+2025-05-17 10:03:51,135 - INFO - Status code: 200
+2025-05-17 10:03:51,136 - INFO - Response body: success
+
+2025-05-17 10:03:51,136 - INFO - Weather Underground upload success
+2025-05-17 10:03:51,137 - INFO - DISPLAY_GREEN_TICK
+2025-05-17 10:03:56,147 - INFO - Humidiy temp  : 32
+2025-05-17 10:03:56,147 - INFO - Pressure temp : 30
+2025-05-17 10:03:56,147 - INFO - Average temp  : 31
+2025-05-17 10:03:56,147 - INFO - CPU temp      : 56
+2025-05-17 10:03:56,147 - INFO - read_temp
+2025-05-17 10:03:56,147 - INFO - read_temp_sense_hat no DS18B20 detected.
+2025-05-17 10:03:56,150 - INFO - t_corr : 30
+2025-05-17 10:03:56,150 - INFO - x 30 
+2025-05-17 10:03:56,151 - INFO - Smoothed temp : 30
+2025-05-17 10:03:56,152 - INFO - Temp: 30.5c, Pressure: 29.4 inHg, Humidity: 31.0% Second:56
+2025-05-17 10:03:56,152 - INFO - displayText: True, displaySymbol: True
+2025-05-17 10:04:05,620 - INFO - Temperature is the SAME
+2025-05-17 10:04:05,621 - INFO - DISPLAY_BARS
+2025-05-17 10:04:09,622 - INFO - set_brightness
+2025-05-17 10:04:09,622 - INFO - day brightness = 200
+2025-05-17 10:04:09,622 - INFO - set_low_light
+2025-05-17 10:04:09,622 - INFO - low_light = False
+2025-05-17 10:04:09,622 - INFO - Uploading data to Weather Underground
+2025-05-17 10:04:09,879 - INFO - Status code: 200
+2025-05-17 10:04:09,879 - INFO - Response body: success
+
+2025-05-17 10:04:09,879 - INFO - Weather Underground upload success
+2025-05-17 10:04:09,879 - INFO - DISPLAY_GREEN_TICK
+2025-05-17 10:04:14,890 - INFO - Humidiy temp  : 32
+2025-05-17 10:04:14,891 - INFO - Pressure temp : 30
+2025-05-17 10:04:14,891 - INFO - Average temp  : 31
+2025-05-17 10:04:14,891 - INFO - CPU temp      : 55
+2025-05-17 10:04:14,892 - INFO - read_temp
+2025-05-17 10:04:14,892 - INFO - read_temp_sense_hat no DS18B20 detected.
+2025-05-17 10:04:14,894 - INFO - t_corr : 30
+2025-05-17 10:04:14,894 - INFO - x 30 
+2025-05-17 10:04:14,895 - INFO - Smoothed temp : 30
+2025-05-17 10:04:14,898 - INFO - Temp: 30.6c, Pressure: 29.4 inHg, Humidity: 31.0% Second:14
+2025-05-17 10:04:14,898 - INFO - displayText: True, displaySymbol: True
+2025-05-17 10:04:24,360 - INFO - Temperature going UP
+2025-05-17 10:04:24,360 - INFO - DISPLAY_RED_ARROW
+2025-05-17 10:04:28,361 - INFO - set_brightness
+2025-05-17 10:04:28,361 - INFO - day brightness = 200
+2025-05-17 10:04:28,361 - INFO - set_low_light
+2025-05-17 10:04:28,362 - INFO - low_light = False
+2025-05-17 10:04:28,362 - INFO - Uploading data to Weather Underground
+2025-05-17 10:04:28,630 - INFO - Status code: 200
+2025-05-17 10:04:28,631 - INFO - Response body: success
+
+2025-05-17 10:04:28,631 - INFO - Weather Underground upload success
+2025-05-17 10:04:28,632 - INFO - DISPLAY_GREEN_TICK
+2025-05-17 10:04:33,639 - INFO - Humidiy temp  : 32
+2025-05-17 10:04:33,639 - INFO - Pressure temp : 30
+2025-05-17 10:04:33,639 - INFO - Average temp  : 31
+2025-05-17 10:04:33,640 - INFO - CPU temp      : 56
+2025-05-17 10:04:33,640 - INFO - read_temp
+2025-05-17 10:04:33,640 - INFO - read_temp_sense_hat no DS18B20 detected.
+2025-05-17 10:04:33,641 - INFO - t_corr : 30
+2025-05-17 10:04:33,641 - INFO - x 30 
+2025-05-17 10:04:33,642 - INFO - Smoothed temp : 30
+2025-05-17 10:04:33,643 - INFO - Temp: 30.6c, Pressure: 29.4 inHg, Humidity: 31.0% Second:33
+2025-05-17 10:04:33,643 - INFO - displayText: True, displaySymbol: True
+2025-05-17 10:04:43,117 - INFO - Temperature is the SAME
+2025-05-17 10:04:43,117 - INFO - DISPLAY_BARS
+2025-05-17 10:04:47,118 - INFO - set_brightness
+2025-05-17 10:04:47,118 - INFO - day brightness = 200
+2025-05-17 10:04:47,119 - INFO - set_low_light
+2025-05-17 10:04:47,119 - INFO - low_light = False
+2025-05-17 10:04:47,119 - INFO - Uploading data to Weather Underground
+2025-05-17 10:04:47,379 - INFO - Status code: 200
+2025-05-17 10:04:47,379 - INFO - Response body: success
+
+2025-05-17 10:04:47,380 - INFO - Weather Underground upload success
+2025-05-17 10:04:47,380 - INFO - DISPLAY_GREEN_TICK
+2025-05-17 10:04:52,386 - INFO - Humidiy temp  : 32
+2025-05-17 10:04:52,386 - INFO - Pressure temp : 30
+2025-05-17 10:04:52,386 - INFO - Average temp  : 31
+2025-05-17 10:04:52,387 - INFO - CPU temp      : 56
+2025-05-17 10:04:52,387 - INFO - read_temp
+2025-05-17 10:04:52,387 - INFO - read_temp_sense_hat no DS18B20 detected.
+2025-05-17 10:04:52,388 - INFO - t_corr : 30
+2025-05-17 10:04:52,388 - INFO - x 30 
+2025-05-17 10:04:52,388 - INFO - Smoothed temp : 30
+2025-05-17 10:04:52,389 - INFO - Temp: 30.7c, Pressure: 29.4 inHg, Humidity: 31.0% Second:52
+2025-05-17 10:04:52,390 - INFO - displayText: True, displaySymbol: True
+2025-05-17 10:05:01,848 - INFO - Temperature going UP
+2025-05-17 10:05:01,848 - INFO - DISPLAY_RED_ARROW
+2025-05-17 10:05:05,849 - INFO - set_brightness
+2025-05-17 10:05:05,849 - INFO - day brightness = 200
+2025-05-17 10:05:05,849 - INFO - set_low_light
+2025-05-17 10:05:05,849 - INFO - low_light = False
+2025-05-17 10:05:05,849 - INFO - Uploading data to Weather Underground
+2025-05-17 10:05:06,095 - INFO - Status code: 200
+2025-05-17 10:05:06,096 - INFO - Response body: success
+
+2025-05-17 10:05:06,096 - INFO - Weather Underground upload success
+2025-05-17 10:05:06,096 - INFO - DISPLAY_GREEN_TICK
+2025-05-17 10:05:11,103 - INFO - Humidiy temp  : 32
+2025-05-17 10:05:11,104 - INFO - Pressure temp : 30
+2025-05-17 10:05:11,104 - INFO - Average temp  : 31
+2025-05-17 10:05:11,104 - INFO - CPU temp      : 54
+2025-05-17 10:05:11,104 - INFO - read_temp
+2025-05-17 10:05:11,104 - INFO - read_temp_sense_hat no DS18B20 detected.
+2025-05-17 10:05:11,105 - INFO - t_corr : 30
+2025-05-17 10:05:11,105 - INFO - x 30 
+2025-05-17 10:05:11,106 - INFO - Smoothed temp : 30
+2025-05-17 10:05:11,107 - INFO - Temp: 30.7c, Pressure: 29.4 inHg, Humidity: 31.0% Second:11
+2025-05-17 10:05:11,107 - INFO - displayText: True, displaySymbol: True
+2025-05-17 10:05:20,563 - INFO - Temperature is the SAME
+2025-05-17 10:05:20,564 - INFO - DISPLAY_BARS
+2025-05-17 10:05:24,565 - INFO - set_brightness
+2025-05-17 10:05:24,565 - INFO - day brightness = 200
+2025-05-17 10:05:24,565 - INFO - set_low_light
+2025-05-17 10:05:24,566 - INFO - low_light = False
+2025-05-17 10:05:24,566 - INFO - Uploading data to Weather Underground
+2025-05-17 10:05:24,852 - INFO - Status code: 200
+2025-05-17 10:05:24,852 - INFO - Response body: success
+
+2025-05-17 10:05:24,852 - INFO - Weather Underground upload success
+2025-05-17 10:05:24,853 - INFO - DISPLAY_GREEN_TICK
+2025-05-17 10:05:29,859 - INFO - Humidiy temp  : 32
+2025-05-17 10:05:29,859 - INFO - Pressure temp : 30
+2025-05-17 10:05:29,859 - INFO - Average temp  : 31
+2025-05-17 10:05:29,859 - INFO - CPU temp      : 56
+2025-05-17 10:05:29,859 - INFO - read_temp
+2025-05-17 10:05:29,860 - INFO - read_temp_sense_hat no DS18B20 detected.
+2025-05-17 10:05:29,862 - INFO - t_corr : 30
+2025-05-17 10:05:29,862 - INFO - x 30 
+2025-05-17 10:05:29,862 - INFO - Smoothed temp : 30
+2025-05-17 10:05:29,863 - INFO - Temp: 30.7c, Pressure: 29.4 inHg, Humidity: 31.0% Second:29
+2025-05-17 10:05:29,863 - INFO - displayText: True, displaySymbol: True
+2025-05-17 10:05:39,325 - INFO - Temperature is the SAME
+2025-05-17 10:05:39,325 - INFO - DISPLAY_BARS
+2025-05-17 10:05:43,325 - INFO - set_brightness
+2025-05-17 10:05:43,326 - INFO - day brightness = 200
+2025-05-17 10:05:43,326 - INFO - set_low_light
+2025-05-17 10:05:43,326 - INFO - low_light = False
+2025-05-17 10:05:43,326 - INFO - Uploading data to Weather Underground
+2025-05-17 10:05:43,591 - INFO - Status code: 200
+2025-05-17 10:05:43,591 - INFO - Response body: success
+
+2025-05-17 10:05:43,591 - INFO - Weather Underground upload success
+2025-05-17 10:05:43,591 - INFO - DISPLAY_GREEN_TICK
+2025-05-17 10:05:48,599 - INFO - Humidiy temp  : 32
+2025-05-17 10:05:48,599 - INFO - Pressure temp : 30
+2025-05-17 10:05:48,599 - INFO - Average temp  : 31
+2025-05-17 10:05:48,599 - INFO - CPU temp      : 56
+2025-05-17 10:05:48,599 - INFO - read_temp
+2025-05-17 10:05:48,600 - INFO - read_temp_sense_hat no DS18B20 detected.
+2025-05-17 10:05:48,602 - INFO - t_corr : 30
+2025-05-17 10:05:48,602 - INFO - x 30 
+2025-05-17 10:05:48,602 - INFO - Smoothed temp : 30
+2025-05-17 10:05:48,604 - INFO - Temp: 30.8c, Pressure: 29.4 inHg, Humidity: 31.0% Second:48
+2025-05-17 10:05:48,604 - INFO - displayText: True, displaySymbol: True
