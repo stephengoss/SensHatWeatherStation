@@ -155,9 +155,8 @@ def read_temp():
         return read_temp_sense()
 
 def print_orientation():
-    logger.info("print_orientation")
     north = sense.get_compass()
-    logger.info("North: %s" % north)
+    logger.info("print_orientation North: %s" % north)
     logger.info(sense.compass)
     orientation = sense.get_orientation()
     logger.info("p: {pitch}, r: {roll}, y: {yaw}".format(**orientation))
@@ -165,35 +164,30 @@ def print_orientation():
     return True
 
 def set_low_light():
-    logger.info("set_low_light")
-
     hour = time.localtime().tm_hour
     if 7 <= hour < 18:
         sense.low_light = False
-        logger.info("low_light = False")
+        logger.info("set_low_light = False")
     else:
         sense.low_light = True
-        logger.info("low_light = True")
+        logger.info("set_low_light = True")
     return True
 
 def set_gamma():
-    logger.info("set_gamma")
     sense.gamma_reset()
-    logger.info('Gamma : ')
+    logger.info('set_gamma : ')
     logger.info(sense.gamma)
     sense.clear(255, 127, 0)
     return True
 
 def set_brightness():
-    logger.info("set_brightness")
-
     hour = time.localtime().tm_hour
     if 7 <= hour < 18:
         BRIGHTNESS = 200
-        logger.info("day brightness = 200")
+        logger.info("set_brightness = 200")
     else:
         BRIGHTNESS = 20
-        logger.info("evening brightness = 20")
+        logger.info("set_brightness = 20")
     return True
 
 def display_red_arrow():
