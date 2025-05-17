@@ -362,8 +362,8 @@ def main():
                     upload_url = "http://weatherstation.wunderground.com/weatherstation/updateweatherstation.php"
 
                     params = {
-                    "ID": "IFREIB27",
-                    "PASSWORD": "XeshVHi1",
+                    "ID": wu_station_id,
+                    "PASSWORD": wu_station_key,
                     "dateutc": "now",
                     "tempf": str(temp_f),
                     "humidity": str(humidity),
