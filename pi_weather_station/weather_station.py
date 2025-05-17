@@ -245,7 +245,7 @@ def get_cpu_temp() -> float:
         logger.error(f"Failed to get CPU temperature: {e}")
         return float('nan')
 
-def get_smooth(x):
+def get_smooth(x) -> float:
     """Use moving average to smooth readings."""
     logger.info("x %d " % x)
     # do we have the t object?
