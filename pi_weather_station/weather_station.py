@@ -423,7 +423,7 @@ logger.info("Weather Upload : %d", wu_weather_upload)
 
 *****************************************************************************************************************'''
 try:
-    logger.info("Initializing the Sense HAT client")
+    logger.info("Initializing the Sense HAT")
     sense = SenseHat()
     sense.set_rotation(wu_screen_rotation)
 
