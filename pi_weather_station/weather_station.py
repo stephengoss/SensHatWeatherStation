@@ -449,7 +449,8 @@ try:
     sense.set_rotation(0)
     # then write some text to the Sense HAT's 'screen'
     sense.show_message("Weather Station Version %s ",SensHatWeatherStationVersion, text_colour=[55+BRIGHTNESS, 55+BRIGHTNESS, 0], back_colour=[0, 0, 55+BRIGHTNESS])
-
+    logger.info("Weather Station Version %s ",SensHatWeatherStationVersion)
+   
     # clear the screen
     sense.clear()
     # get the current temp to use when checking the previous measurement
