@@ -199,31 +199,31 @@ def set_brightness():
     return True
 
 def display_red_arrow():
-    logger.info("DISPLAY_RED_ARROW")
+    logger.info("display_red_arrow")
     sense.set_pixels(arrow_up)
     time.sleep(SYMBOL_SLEEP)
     return True
 
 def display_blue_arrow():
-    logger.info("DISPLAY_BLUE_ARROW")
+    logger.info("display_blue_arrow")
     sense.set_pixels(arrow_down)
     time.sleep(SYMBOL_SLEEP)
     return True
 
 def display_bars():
-    logger.info("DISPLAY_BARS")
+    logger.info("display_bars")
     sense.set_pixels(bars)
     time.sleep(SYMBOL_SLEEP)
     return True
 
 def display_green_tick():
-    logger.info("DISPLAY_GREEN_TICK")
+    logger.info("display_green_tick")
     sense.set_pixels(green_tick)
     time.sleep(SYMBOL_SLEEP)
     return True
 
 def display_red_cross():
-    logger.info("DISPLAY_RED_CROSS")
+    logger.info("display_red_cross")
     sense.set_pixels(red_cross)
     time.sleep(SYMBOL_SLEEP)
     return True
