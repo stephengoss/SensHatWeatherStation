@@ -28,10 +28,8 @@ __version__ = "1.0.1"
 base_dir = '/sys/bus/w1/devices/'
 device_folder_check = glob.glob(base_dir + '28*')
 temp_sensor = "SENSHAT"
-
 SYMBOL_SLEEP = 4   
 # Set to True to enable upload of weather data to Weather Underground
-WEATHER_UPLOAD = True
 BRIGHTNESS = 200
 USE_CPU_CORRECTION = True
 
@@ -367,14 +365,12 @@ def main():
             # set last_temp to the current temperature before we measure again
             last_temp_c = temp_c
 
-            if WEATHER_UPLOAD:
+            # set the brighness bassed on the time of day.
+            set_brightness()
+            set_low_light()
+            last_temp = temp_f
 
-                # set the brighness bassed on the time of day.
-                set_brightness()
-                set_low_light()
-
-                last_temp = temp_f
-
+            if wu_weather_upload:
                 logger.info("Uploading data to Weather Underground")
 
                 try:
@@ -429,14 +425,13 @@ logger.info("Initializing Weather Underground configuration")
 wu_station_id = Config.STATION_ID
 wu_station_key = Config.STATION_KEY
 wu_screen_rotation = Config.SCREEN_ROTATION
-if (wu_station_id is None) or (wu_station_key is None):
-    logger.info("Missing values from the Weather Underground configuration file")
-    sys.exit(1)
+wu_weather_upload = Config.WEATHER_UPLOAD
 
 # we made it this far, so it must have worked...
-logger.info("Successfully read Weather Underground configuration values")
+logger.info("Successfully read configuration values")
 logger.info("Station ID: %s", wu_station_id)
 logger.info("Screen Rotation: %d", wu_screen_rotation)
+logger.info("Weather Upload : %d", wu_weather_upload)
 
 '''*****************************************************************************************************************
    Initialize the Sense HAT object
