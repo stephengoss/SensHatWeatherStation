@@ -264,7 +264,7 @@ def get_smooth(x) -> float:
 
     return xs
 
-def get_temp():
+def get_temp() -> float:
     # ====================================================================
     # Unfortunately, getting an accurate temperature reading from the
     # Sense HAT is improbable, see here:
