@@ -27,7 +27,6 @@ import logging
 base_dir = '/sys/bus/w1/devices/'
 device_folder_check = glob.glob(base_dir + '28*')
 temp_sensor = "SENSHAT"
-verbose = False
 
 SYMBOL_SLEEP = 4   
 # Set to True to enable upload of weather data to Weather Underground
@@ -123,13 +122,6 @@ if not logger.hasHandlers():
     logger.addHandler(console_handler)
     logger.addHandler(file_handler)
 
-# Log messages
-logger.debug("This is a debug message (console only)")
-logger.info("This is an info message (both)")
-logger.warning("This is a warning")
-logger.error("This is an error")
-logger.critical("This is critical")
-
 if not device_folder_check:
     logger.info("No DS18B20 sensor found. Continuing with SENSHAT data.")
     temp_sensor = "SENSHAT"
@@ -150,8 +142,8 @@ def read_temp_DS18B20():
     while lines[0].strip()[-3:] != 'YES':
         time.sleep(0.2)
         lines = read_temp_raw()
-        logger.info("read_temp_DS18B20")
-        logger.info(lines)
+        logger.debug("read_temp_DS18B20")
+        logger.debug(lines)
     equals_pos = lines[1].find('t=')
     if equals_pos != -1:
         temp_string = lines[1][equals_pos+2:]
@@ -264,11 +256,9 @@ def get_smooth(x):
     get_smooth.t[0] = x
     # average the three last temperatures
     xs = (get_smooth.t[0] + get_smooth.t[1] + get_smooth.t[2]) / 3
-
-    if verbose:
-        logger.info("smooth 0 : %d" % get_smooth.t[0])
-        logger.info("smooth 1 : %d" % get_smooth.t[1])
-        logger.info("smooth 2 : %d" % get_smooth.t[2]) 
+    logger.debug("smooth 0 : %d" % get_smooth.t[0])
+    logger.debug("smooth 1 : %d" % get_smooth.t[1])
+    logger.debug("smooth 2 : %d" % get_smooth.t[2]) 
 
     return xs
 
