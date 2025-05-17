@@ -261,7 +261,7 @@ def get_smooth(x) -> float:
     return xs
 
 def get_temp() -> float:
-    # ====================================================================
+    """approximation of the actual temp from the sens hat, taking CPU temp into account"""
     # Unfortunately, getting an accurate temperature reading from the
     # Sense HAT is improbable, see here:
     # https://www.raspberrypi.org/forums/viewtopic.php?f=104&t=111457
@@ -309,13 +309,6 @@ def main():
     displaySymbol = True
     displayText = True
     upload_on_change = True
-
-    # initialize the lastMinute variable to the current time to start
-    last_minute = datetime.datetime.now().minute
-    # on startup, just use the previous minute as lastMinute
-    last_minute -= 1
-    if last_minute == 0:
-        last_minute = 59
 
     last_temp_c = 0
 
@@ -408,14 +401,6 @@ def main():
         time.sleep(1)  
     logger.info("Leaving main()") # this should never happen since the above is an infinite loop
 
-
-'''*****************************************************************************************************************
-   Here's where we start doing stuff
-
-*****************************************************************************************************************'''
-
-logger.info("Pi Weather Station")
-
 '''*****************************************************************************************************************
    Read Weather Underground Configuration Parameters
 
@@ -441,13 +426,11 @@ try:
     logger.info("Initializing the Sense HAT client")
     sense = SenseHat()
     sense.set_rotation(wu_screen_rotation)
-    # then write some text to the Sense HAT's 'screen'
 
-    versionStr = f"Weather Station V:{__version__}"
+    versionStr = f"V:{__version__}"
     sense.show_message(versionStr, text_colour=[55+BRIGHTNESS, 55+BRIGHTNESS, 0], back_colour=[0, 0, 55+BRIGHTNESS])
     logger.info(versionStr)
    
-    # clear the screen
     sense.clear()
     # get the current temp to use when checking the previous measurement
     last_temp = round(c_to_f(get_temp()), 1)
