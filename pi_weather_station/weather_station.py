@@ -294,8 +294,6 @@ def get_temp() -> float:
 def main():
     global last_temp
     allIsGood = True
-    displaySymbol = True
-    displayText = True
     upload_on_change = True
 
     last_temp_c = 0
@@ -305,6 +303,8 @@ def main():
     set_brightness()
     set_low_light()
 
+    sense.clear()
+    
     # infinite loop to continuously check weather values
     while allIsGood:
         current_second = datetime.datetime.now().second
@@ -317,14 +317,14 @@ def main():
             pressure = round(sense.get_pressure() * 0.0295300, 1)
 
             logger.info("Temp: %sc, Pressure: %s inHg, Humidity: %s%% Second:%s" % (temp_c, pressure, humidity, current_second))
-            logger.info("displayText: %s, displaySymbol: %s" % (str(displayText), str(displaySymbol)))
+            logger.info("displayText: %s, displaySymbol: %s" % (str(wu_display_text), str(wu_display_symbol)))
 
-            if displayText:
+            if wu_display_text:
                 sense.clear()
                 sense.show_message(" " + str(temp_c) + "c ", text_colour=[55+BRIGHTNESS, 55+BRIGHTNESS, 0], back_colour=[0, 0, 0])
                 sense.show_message(" " + str(temp_c) + "c ", text_colour=[55+BRIGHTNESS, 55+BRIGHTNESS, 0], back_colour=[0, 0, 0])
 
-            if displaySymbol:
+            if wu_display_symbol:
                 sense.clear()
                 if last_temp_c != temp_c:
                     if last_temp_c > temp_c:
@@ -374,12 +374,14 @@ def main():
 
                 except:
                     logger.info("Exception: %s", sys.exc_info()[0])
-                    display_red_cross()
+                    if (wu_display_symbol):
+                        display_red_cross()
                 
 
                 # Tick for upload success.
                 logger.info("Weather Underground upload success")
-                display_green_tick()
+                if (wu_display_symbol):
+                    display_green_tick()
                 
             else:
                 logger.info("Skipping Weather Underground upload")                
@@ -399,12 +401,16 @@ wu_station_id = Config.STATION_ID
 wu_station_key = Config.STATION_KEY
 wu_screen_rotation = Config.SCREEN_ROTATION
 wu_weather_upload = Config.WEATHER_UPLOAD
+wu_display_symbol = Config.DISPLAY_SYMBOL
+wu_display_text = Config.DISPLAY_TEXT
 
 # we made it this far, so it must have worked...
 logger.info("Successfully read configuration values")
 logger.info("Station ID      : %s", wu_station_id)
 logger.info("Screen Rotation : %d", wu_screen_rotation)
 logger.info("Weather Upload  : %d", wu_weather_upload)
+logger.info("Display Text    : %d", wu_display_text)
+logger.info("Display Symbol  : %d", wu_display_symbol)
 
 '''*****************************************************************************************************************
    Initialize the Sense HAT object
