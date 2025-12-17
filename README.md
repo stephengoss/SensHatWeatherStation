@@ -1,10 +1,9 @@
 # Pi Weather Station
 Its a python script for a raspberry pi sens hat weather stations
-Based on code originaly created by John M. Wargo https://johnwargo.github.io/
+Based on code originaly created by John M. Wargo [https://johnwargo.github.io/](https://github.com/johnwargo/pi-weather-station)
 
 Original readme by John Wargo
-Most of this is relevant to this branch though the code has been modified.
-
+Most of this is relevant to this branch though the code has been heavily modified.
 
 This is a Raspberry Pi project that measures weather values (temperature, humidity and pressure) using the Astro Pi Sense HAT then uploads the data to a Weather Underground weather station. The Sense HAT board includes instruments that measure temperature, humidity and barometric pressure plus an 8x8 LED display, a joystick, and an accelerometer.  The HAT was created by the folks at [Astro Pi](https://astro-pi.org/); elementary school children were solicited to create experiments using the Sense HAT it that would be executed on the International Space Station. Eventually, many experiments were selected and an astronaut performed them and sent back the results for analysis. I read different articles about this board, so I decided to create a project using it. I'd wanted to install a weather station in my yard and upload the weather data to [Weather Underground](www.weatherunderground.com); the Sense HAT and a Raspberry Pi seemed like a great way to do this.
 
